@@ -1,16 +1,15 @@
 import React from 'react';
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
+} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
 
 const SIZE = 100.0;
 const CIRCLE_RADIUS = SIZE * 2;
@@ -61,40 +60,11 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row'}}>
-        {Array(5)
-          .fill(1)
-          .map((item, index) => {
-            return (
-              <View
-                key={index}
-                style={[
-                  {
-                    flex: 1,
-                  },
-                  index === 2 && {
-                    transform: [{translateY: -60}],
-                  },
-                ]}>
-                <TouchableOpacity
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: 'red',
-                    paddingVertical: 16,
-                  }}
-                  onPress={() => console.log('123')}>
-                  <Text>item</Text>
-                </TouchableOpacity>
-              </View>
-            );
-          })}
-      </View>
-      {/* <View style={styles.circle}>
+      <View style={styles.circle}>
         <PanGestureHandler onGestureEvent={panGestureEvent}>
           <Animated.View style={[styles.square, rStyle]} />
         </PanGestureHandler>
-      </View> */}
+      </View>
     </View>
   );
 }

@@ -13,15 +13,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as shape from 'd3-shape';
 import React from 'react';
 import {
-  Animated,
   Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import Svg, {G, Path} from 'react-native-svg';
-import HomeSvg from '~assets/svgs/home';
+import Svg, {Path} from 'react-native-svg';
 import {HomeScreen, PagingScreen} from '~screens';
 
 const Stack = createNativeStackNavigator();
@@ -33,9 +31,10 @@ interface MyTabProps {
   navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
 }
 
-const NAVIGATION_BOTTOM_TABS_HEIGHT = 60;
+const NAVIGATION_BOTTOM_TABS_HEIGHT = 50;
 const screenWidth = Dimensions.get('window').width;
 const height = NAVIGATION_BOTTOM_TABS_HEIGHT;
+const translateY = 25;
 
 const getPath = () => {
   const curve = shape
@@ -63,58 +62,46 @@ const getPath = () => {
 };
 
 const d = getPath();
-{
-  /* <Svg width="100%" height={NAVIGATION_BOTTOM_TABS_HEIGHT}>
-        <Path d={d} fill="pink" stroke="transparent" />
-      </Svg> */
-}
-const AnimatedG = Animated.createAnimatedComponent(G);
+
 function MyTabBar({state, descriptors, navigation}: MyTabProps) {
   return (
-    <View style={{flexDirection: 'row'}}>
-      {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
+    <View style={styles.tabBarContainer}>
+      <Svg width="100%" height={NAVIGATION_BOTTOM_TABS_HEIGHT}>
+        <Path d={d} fill="pink" stroke="transparent" />
+      </Svg>
+      <View style={styles.tabBar}>
+        {state.routes.map((route, index) => {
+          const {options} = descriptors[route.key];
+          const label =
+            options.tabBarLabel !== undefined
+              ? options.tabBarLabel
+              : options.title !== undefined
+              ? options.title
+              : route.name;
 
-        const isFocused = state.index === index;
+          const isFocused = state.index === index;
 
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
 
-          if (!isFocused && !event.defaultPrevented) {
-            // The `merge: true` option makes sure that the params inside the tab screen are preserved
-            navigation.navigate(route.name);
-          }
-        };
+            if (!isFocused && !event.defaultPrevented) {
+              // The `merge: true` option makes sure that the params inside the tab screen are preserved
+              navigation.navigate(route.name);
+            }
+          };
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
+          const onLongPress = () => {
+            navigation.emit({
+              type: 'tabLongPress',
+              target: route.key,
+            });
+          };
 
-        return (
-          <View
-            key={index}
-            style={[
-              {
-                flex: 1,
-              },
-              index === 2 && {
-                backgroundColor: 'red',
-                transform: [{translateY: -30}],
-              },
-            ]}>
+          return (
             <TouchableOpacity
               key={index}
               accessibilityRole="button"
@@ -123,20 +110,14 @@ function MyTabBar({state, descriptors, navigation}: MyTabProps) {
               testID={options.tabBarTestID}
               onPress={onPress}
               onLongPress={onLongPress}
-              style={[
-                {
-                  paddingVertical: 16,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                },
-              ]}>
+              style={[styles.itemTab, index === 2 && styles.itemTabCenter]}>
               <Text style={{color: isFocused ? '#673ab7' : '#222'}}>
                 {label}
               </Text>
             </TouchableOpacity>
-          </View>
-        );
-      })}
+          );
+        })}
+      </View>
     </View>
   );
 }
@@ -147,24 +128,11 @@ const App: React.FC<{}> = () => {
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
-          tabBarStyle: {
-            backgroundColor: '#CCC',
-          },
         }}
-        // tabBar={(props) => <MyTabBar {...props} />}
-      >
+        tabBar={(props) => <MyTabBar {...props} />}>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Paging" component={PagingScreen} />
-        <Tab.Screen
-          name="Paging1"
-          component={PagingScreen}
-          options={{
-            tabBarItemStyle: {
-              backgroundColor: 'pink',
-              transform: [{translateY: -20}],
-            },
-          }}
-        />
+        <Tab.Screen name="Paging1" component={PagingScreen} />
         <Tab.Screen name="Paging2" component={PagingScreen} />
         <Tab.Screen name="Paging3" component={PagingScreen} />
       </Tab.Navigator>
@@ -173,32 +141,33 @@ const App: React.FC<{}> = () => {
 };
 
 const styles = StyleSheet.create({
-  contentItemTab: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 30,
-  },
-  container: {
-    height: NAVIGATION_BOTTOM_TABS_HEIGHT,
-    justifyContent: 'flex-end',
-  },
-  content: {
-    flexDirection: 'column',
-    zIndex: 0,
-    width: Dimensions.get('window').width,
+  tabBarContainer: {
     position: 'absolute',
     bottom: 0,
+    width: '100%',
+    height: NAVIGATION_BOTTOM_TABS_HEIGHT + 10 + translateY,
+    backgroundColor: 'transparent',
+    justifyContent: 'flex-end',
   },
-  subContent: {
+  tabBar: {
+    ...StyleSheet.absoluteFillObject,
     flexDirection: 'row',
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 10,
-    zIndex: 1,
-    position: 'absolute',
-    bottom: 5,
+    alignItems: 'flex-end',
+  },
+  itemTab: {
+    flexDirection: 'row',
+    flex: 1,
+    height: NAVIGATION_BOTTOM_TABS_HEIGHT,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemTabCenter: {
+    height: 60,
+    width: 60,
+    flex: 0,
+    borderRadius: 30,
+    backgroundColor: 'pink',
+    transform: [{translateY: -translateY}],
   },
 });
 
