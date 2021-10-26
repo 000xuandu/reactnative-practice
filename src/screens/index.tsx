@@ -1,3 +1,4 @@
 import HomeScreen from './HomeScreen/Home';
 import PagingScreen from './PagingScreen/PagingScreen';
-export {HomeScreen, PagingScreen};
+import CountScreen from './CountScreen/CountScreen';
+export {HomeScreen, PagingScreen, CountScreen};
