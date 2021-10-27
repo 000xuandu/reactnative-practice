@@ -1,7 +1,9 @@
 import React from 'react';
 import {Button, FlatList, View} from 'react-native';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {shallowEqual} from 'react-redux';
+import {RootState, useAppDispatch, useAppSelector} from '~stores';
 import {addNewTodoItem} from '~stores/count/countAction';
+import {Todo} from '~stores/count/countReducer';
 import {TodoItem} from './TodoItem';
 
 const TodoScreen = () => {
@@ -21,10 +23,11 @@ const TodoScreen = () => {
 };
 
 const useTodoScreenLogic = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const todoIdList = useSelector(
-    (rootState: any) => rootState.countReducer.list.map((item: any) => item.id),
+  const todoIdList = useAppSelector(
+    (rootState: RootState) =>
+      rootState.countReducer.list.map((item: Todo) => item.id),
     shallowEqual,
   );
 

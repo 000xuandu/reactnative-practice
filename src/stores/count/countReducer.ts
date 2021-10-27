@@ -5,7 +5,18 @@ export interface Action {
   readonly payload?: any;
 }
 
-const initialState = {
+export interface Todo {
+  id: number;
+  name: string;
+  isDone: boolean;
+}
+
+interface CountState {
+  number: number;
+  list: Todo[];
+}
+
+const initialState: CountState = {
   number: 0,
   list: [
     {id: 1, name: 'todo 1', isDone: false},
