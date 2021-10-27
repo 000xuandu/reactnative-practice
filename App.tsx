@@ -4,16 +4,13 @@ import React from 'react';
 import {DrawerCustom} from '~components';
 import {HomeScreen} from '~screens';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import rootReducer from '~stores/rootReducer';
+import {store} from '~stores';
 
 const Stack = createNativeStackNavigator();
 
 const DrawerMixedTab = (props: any) => {
   return <DrawerCustom {...props} />;
 };
-
-const store = createStore(rootReducer);
 
 const App: React.FC<{}> = () => {
   return (

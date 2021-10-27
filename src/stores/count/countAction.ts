@@ -1,9 +1,15 @@
 import * as countActionTypes from './countActionTypes';
 
-export const todoAdded = (number: number) => {
-  console.log('number: ', number);
+export const toggleDoneById = (id: number) => {
   return {
-    type: countActionTypes.COUNT_BY_NUMBER,
-    payload: {number},
+    type: countActionTypes.TOGGLE_DONE_BY_ID,
+    payload: {id},
+  };
+};
+
+export const addNewTodoItem = (newItem: any) => {
+  return {
+    type: countActionTypes.ADD_TODO_ITEM,
+    payload: {item: newItem},
   };
 };

@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import Animated, {Adaptable, Extrapolate} from 'react-native-reanimated';
 import Svg, {Path} from 'react-native-svg';
-import {CountScreen, HomeScreen, PagingScreen} from '~screens';
+import {TodoScreen, PagingScreen} from '~screens';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -150,7 +150,7 @@ const TabNav = ({}: any) => {
         <Tab.Screen name="Paging1" component={PagingScreen} />
         <Tab.Screen name="Paging2" component={PagingScreen} />
         <Tab.Screen name="Paging3" component={PagingScreen} />
-        <Tab.Screen name="Count" component={CountScreen} />
+        <Tab.Screen name="Todo" component={TodoScreen} />
       </Tab.Navigator>
     </Animated.View>
   );
