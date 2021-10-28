@@ -19,7 +19,7 @@ import {
   TAB_CONTAINER_HEIGHT,
   translateY,
 } from '~constants/theme';
-import {TodoScreen, PagingScreen} from '~screens';
+import {TodoScreen, PagingScreen, HeaderAnimation} from '~screens';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -155,7 +155,7 @@ const TabNav = ({}: any) => {
         }}
         tabBar={(props) => <MyTabBar {...props} />}>
         <Tab.Screen name="Paging" component={PagingScreen} />
-        <Tab.Screen name="Paging1" component={PagingScreen} />
+        <Tab.Screen name="Header" component={HeaderAnimation} />
         <Tab.Screen name="Paging2" component={PagingScreen} />
         <Tab.Screen name="Paging3" component={PagingScreen} />
         <Tab.Screen name="Todo" component={TodoScreen} />
