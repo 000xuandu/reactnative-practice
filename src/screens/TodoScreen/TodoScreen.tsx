@@ -1,6 +1,8 @@
 import React from 'react';
-import {Button, FlatList, View} from 'react-native';
+import {Button, FlatList, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {shallowEqual} from 'react-redux';
+import {SPACE_BOTTOM_AREA} from '~constants/theme';
 import {RootState, useAppDispatch, useAppSelector} from '~stores';
 import {addNewTodoItem} from '~stores/count/countAction';
 import {Todo} from '~stores/count/countReducer';
@@ -11,14 +13,14 @@ const TodoScreen = () => {
     useTodoScreenLogic();
 
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <FlatList
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         data={todoIdList}
       />
       <Button title="Add Todo Item" onPress={addTodoItem} />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -54,4 +56,8 @@ const useTodoScreenLogic = () => {
     addTodoItem,
   };
 };
+
+const styles = StyleSheet.create({
+  container: {flex: 1, paddingBottom: SPACE_BOTTOM_AREA},
+});
 export default TodoScreen;

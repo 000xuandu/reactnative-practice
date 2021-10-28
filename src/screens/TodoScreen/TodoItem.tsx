@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
+import {FONTS} from '~constants';
 import {RootState, useAppSelector} from '~stores';
 import {toggleDoneById} from '~stores/count/countAction';
 import {Todo} from '~stores/count/countReducer';
@@ -9,7 +10,7 @@ export const TodoItem = ({id}: {id: number}) => {
   return (
     <View style={styles.container}>
       <Button title="Toggle Done" onPress={toggleDone} />
-      <Text style={textStyle}>{todo?.name}</Text>
+      <Text style={[textStyle, {...FONTS.h4}]}>{todo?.name}</Text>
     </View>
   );
 };

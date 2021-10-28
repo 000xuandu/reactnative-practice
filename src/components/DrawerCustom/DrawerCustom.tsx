@@ -8,15 +8,17 @@ import {
 import {ParamListBase, TabNavigationState} from '@react-navigation/native';
 import * as shape from 'd3-shape';
 import React from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import Animated, {Adaptable, Extrapolate} from 'react-native-reanimated';
 import Svg, {Path} from 'react-native-svg';
+import {SIZES} from '~constants';
+import {
+  BOTTOM_TAB_HEIGHT,
+  ITEM_TAB_HEIGHT,
+  TAB_CONTAINER_HEIGHT,
+  translateY,
+} from '~constants/theme';
 import {TodoScreen, PagingScreen} from '~screens';
 
 const Drawer = createDrawerNavigator();
@@ -28,31 +30,37 @@ interface MyTabProps {
   navigation: any;
 }
 
-const NAVIGATION_BOTTOM_TABS_HEIGHT = 50;
-const screenWidth = Dimensions.get('window').width;
-const height = NAVIGATION_BOTTOM_TABS_HEIGHT;
-const translateY = 25;
-
 const getPath = () => {
   const curve = shape
     .line()
     .x((d: any) => d.x)
     .y((d: any) => d.y)
-    .curve(shape.curveBasis)([
-    {x: screenWidth / 2 - 60, y: 0},
-    {x: screenWidth / 2 - 35, y: 0},
-    {x: screenWidth / 2 - 20, y: height / 2 + 5},
-    {x: screenWidth / 2 + 20, y: height / 2 + 5},
-    {x: screenWidth / 2 + 35, y: 0},
-    {x: screenWidth / 2 + 60, y: 0},
-  ] as [number, number][] | Iterable<[number, number]>);
+    .curve(shape.curveBasis)(
+    isIphoneX()
+      ? ([
+          {x: SIZES.width / 2 - 60, y: 0},
+          {x: SIZES.width / 2 - 35, y: 0},
+          {x: SIZES.width / 2 - 20, y: BOTTOM_TAB_HEIGHT / 2 - 10},
+          {x: SIZES.width / 2 + 20, y: BOTTOM_TAB_HEIGHT / 2 - 10},
+          {x: SIZES.width / 2 + 35, y: 0},
+          {x: SIZES.width / 2 + 60, y: 0},
+        ] as [number, number][] | Iterable<[number, number]>)
+      : ([
+          {x: SIZES.width / 2 - 60, y: 0},
+          {x: SIZES.width / 2 - 35, y: 0},
+          {x: SIZES.width / 2 - 20, y: BOTTOM_TAB_HEIGHT / 2 + 5},
+          {x: SIZES.width / 2 + 20, y: BOTTOM_TAB_HEIGHT / 2 + 5},
+          {x: SIZES.width / 2 + 35, y: 0},
+          {x: SIZES.width / 2 + 60, y: 0},
+        ] as [number, number][] | Iterable<[number, number]>),
+  );
   const rectangle = shape
     .line()
     .x((d: any) => d.x)
     .y((d: any) => d.y)([
-    {x: screenWidth, y: 0},
-    {x: screenWidth, y: height},
-    {x: 0, y: height},
+    {x: SIZES.width, y: 0},
+    {x: SIZES.width, y: BOTTOM_TAB_HEIGHT},
+    {x: 0, y: BOTTOM_TAB_HEIGHT},
     {x: 0, y: 0},
   ] as [number, number][] | Iterable<[number, number]>);
   return `${rectangle}${curve}`;
@@ -63,7 +71,7 @@ const d = getPath();
 function MyTabBar({state, descriptors, navigation}: MyTabProps) {
   return (
     <View style={styles.tabBarContainer}>
-      <Svg width="100%" height={NAVIGATION_BOTTOM_TABS_HEIGHT}>
+      <Svg width="100%" height={BOTTOM_TAB_HEIGHT}>
         <Path d={d} fill="pink" stroke="transparent" />
       </Svg>
       <View style={styles.tabBar}>
@@ -210,18 +218,17 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
 
     width: '100%',
-    height: NAVIGATION_BOTTOM_TABS_HEIGHT + 10 + translateY,
-
-    backgroundColor: 'transparent',
+    height: TAB_CONTAINER_HEIGHT,
   },
   tabBar: {
     ...StyleSheet.absoluteFillObject,
     flexDirection: 'row',
     alignItems: 'flex-end',
+    marginBottom: SIZES.bottomNavSpace,
   },
   itemTab: {
     flex: 1,
-    height: NAVIGATION_BOTTOM_TABS_HEIGHT,
+    height: ITEM_TAB_HEIGHT,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
