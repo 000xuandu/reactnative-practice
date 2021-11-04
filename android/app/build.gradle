@@ -1,5 +1,10 @@
 apply plugin: "com.android.application"
-
+apply plugin: 'com.google.gms.google-services'
+// project.ext.envConfigFiles = [
+//   release: ".env.production",
+//   staging: ".env.staging"
+// ]
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 import com.android.build.OutputFile
 
 /**
@@ -150,6 +155,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file(String.valueOf(project.env.get('RELEASE_STORE_FILE')))
+            storePassword project.env.get('RELEASE_STORE_PASSWORD')
+            keyAlias project.env.get('RELEASE_KEY_ALIAS')
+            keyPassword project.env.get('RELEASE_KEY_PASSWORD')
+        }
     }
     buildTypes {
         debug {
@@ -158,7 +169,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -181,6 +192,8 @@ android {
 }
 
 dependencies {
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    implementation 'com.google.firebase:firebase-analytics'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

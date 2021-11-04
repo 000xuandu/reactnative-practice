@@ -7,7 +7,16 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build-apk:production": "cd android && ENVFILE=./fastlane/.env.production ./gradlew assembleRelease",
+    "android:staging": "ENVFILE=./fastlane/.env.staging react-native run-android",
+    "android:production": "ENVFILE=./fastlane/.env.production react-native run-android",
+    "ios:staging": "ENVFILE=./fastlane/.env.staging react-native run-ios",
+    "ios:production": "ENVFILE=./fastlane/.env.production react-native run-ios",
+    "fastlane:android:staging": "bundle exec fastlane android update_config --env staging && yarn android:staging",
+    "fastlane:android:production": "bundle exec fastlane android update_config --env production && yarn android:production",
+    "fastlane:ios:staging": "bundle exec fastlane ios update_config --env staging && yarn ios:staging",
+    "fastlane:ios:production": "bundle exec fastlane ios update_config --env production && yarn ios:production"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.0.9",
@@ -17,6 +26,7 @@
     "d3-shape": "^3.0.1",
     "react": "16.13.1",
     "react-native": "0.63.2",
+    "react-native-config": "^1.4.5",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-iphone-x-helper": "^1.3.1",
     "react-native-reanimated": "^2.3.0-beta.2",

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import Config from 'react-native-config';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -119,6 +120,12 @@ const PagingScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Text
+        style={{
+          backgroundColor: 'red', color: 'white',
+        }}>
+        {Config.API_DOMAIN}123
+      </Text>
       <Animated.ScrollView
         showsHorizontalScrollIndicator={false}
         pagingEnabled

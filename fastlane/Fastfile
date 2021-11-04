@@ -1,0 +1,66 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+fastlane_require 'dotenv'
+
+before_all do |lane, options|
+  Dotenv.load(".env.#{ENV['ENV']}")
+end
+
+platform :android do
+  desc "Runs android's lane'"
+  lane :update_config do
+    update_android_strings(
+      block: lambda { |strings|
+        strings['app_name'] = ENV['ANDROID_APP_NAME']
+      }
+    )
+  end
+  
+  desc "Build"
+  lane :build do
+    update_config
+    gradle(
+      task: "assemble",
+      build_type: 'Release',
+      project_dir: ENV['ANDROID_PROJECT_PATH']
+    )
+  end
+  
+  desc "Submit a new Beta Build to Firebase App Distribution"
+  lane :beta do
+    build
+    firebase_app_distribution(
+        app: "1:563749439527:android:c0b163b141b2f52a84e602",
+        groups: "rn-practice-test",
+        release_notes: "Lots of amazing new features to test out!"
+    )
+  end
+end
+
+platform :ios do
+  desc "Runs ios's lane"
+  lane :update_config do
+    xcodeproj = "#{ENV['IOS_PROJECT_PATH']}/#{ENV['IOS_PROJECT_NAME']}.xcodeproj"
+    plist_path = "#{ENV['IOS_PROJECT_NAME']}/Info.plist"
+    update_info_plist(
+      xcodeproj: xcodeproj,
+      plist_path: plist_path,
+      block: lambda { |plist|
+        plist['CFBundleName'] = ENV['IOS_APP_NAME']
+        plist['CFBundleDisplayName'] = ENV['IOS_APP_NAME']
+      },
+    )
+  end
+end

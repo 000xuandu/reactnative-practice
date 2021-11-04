@@ -1,3 +1,4 @@
+
 <resources>
-    <string name="app_name">MyProject</string>
+  <string name="app_name">production app</string>
 </resources>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
@@ -10,6 +10,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import Config from "react-native-config";
 
 const SIZE = 100.0;
 const CIRCLE_RADIUS = SIZE * 2;
@@ -60,6 +61,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
+      <Text>{Config.STRING_DEMO}</Text>
       <View style={styles.circle}>
         <PanGestureHandler onGestureEvent={panGestureEvent}>
           <Animated.View style={[styles.square, rStyle]} />
