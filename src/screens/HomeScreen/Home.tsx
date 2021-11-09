@@ -10,7 +10,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import Config from "react-native-config";
+import Config from 'react-native-config';
 
 const SIZE = 100.0;
 const CIRCLE_RADIUS = SIZE * 2;

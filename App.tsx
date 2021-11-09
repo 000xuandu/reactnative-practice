@@ -1,4 +1,4 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect} from 'react';
 import {DrawerCustom} from '~components';
@@ -12,25 +12,23 @@ import {fcmService, notifeeService} from '~services';
 const Stack = createNativeStackNavigator();
 
 const DrawerMixedTab = (props: any) => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    notifeeService.navigation = navigation;
+    return notifeeService.registerOnForegroundEvent();
+  });
   return <DrawerCustom {...props} />;
 };
 
-const App: React.FC<{}> = () => {
+const App: React.FC<{}> = ({}) => {
   useEffect(() => {
     fcmService.requestUserPermission();
     fcmService.getToken();
-    return notifeeService.registerOnForegroundEvent();
   }, []);
 
   // arrive fcm message when foreground
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log(
-        'A new FCM message arrived!',
-        JSON.stringify(remoteMessage.data),
-      );
-    });
-    return unsubscribe;
+    return fcmService.receiveMessageForeground();
   }, []);
 
   return (

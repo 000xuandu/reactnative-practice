@@ -1,7 +1,9 @@
-import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
 
 class NotifeeService {
+  public navigation: any;
+  public remoteMessage: any;
+
   /**
    * @event foreground
    * Handle interaction press on notifee's notification
@@ -15,6 +17,9 @@ class NotifeeService {
           break;
         case EventType.PRESS:
           console.log('User pressed notification via foreground');
+          this.navigation.push('Home', {
+            id: this.remoteMessage?.data?.Room,
+          });
           break;
       }
     });
@@ -24,14 +29,17 @@ class NotifeeService {
   /**
    * @event background/quit
    * Handle interaction press on notifee's notification
-   * If you want navigate to other screen,
+   * When app's state is quit, If you want navigate to other screen,
    * you will use redux to save the screen's name.
    * Because this function run without React code.
    */
   registerOnBackgroundEvent() {
-    notifee.onBackgroundEvent(async ({}) => {
+    notifee.onBackgroundEvent(async ({type}) => {
       console.log('event notification from background');
       // const {notification, pressAction} = detail;
+      if (type === EventType.PRESS) {
+        this.navigation.push('Home');
+      }
       // if (type === EventType.ACTION_PRESS) {
       //   console.log('[onBackgroundEvent] ACTION_PRESS: first_action_reply');
       //   // Remove the notification
