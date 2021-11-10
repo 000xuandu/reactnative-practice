@@ -102,7 +102,7 @@ const PagingScreen = () => {
     return progress.value / SIZES.width;
   }, [currentIndex]);
 
-  const scrollHandler = useAnimatedScrollHandler((event) => {
+  const scrollHandler = useAnimatedScrollHandler(event => {
     // progress.value = event.contentOffset.x / event.contentSize.width;
     progress.value = event.contentOffset.x;
   });

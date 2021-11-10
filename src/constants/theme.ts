@@ -1,6 +1,7 @@
 import {Dimensions} from 'react-native';
 const {width, height} = Dimensions.get('window');
 import {getBottomSpace} from 'react-native-iphone-x-helper';
+import {scale} from '~utils/ScalingUtils';
 
 export const COLORS = {
   black: '#1E1F20',
@@ -10,20 +11,20 @@ export const COLORS = {
 };
 export const SIZES = {
   // global sizes
-  base: 8,
-  font: 14,
-  radius: 12,
-  padding: 24,
+  base: scale(8),
+  font: scale(14),
+  radius: scale(12),
+  padding: scale(24),
 
   // font sizes
-  h1: 30,
-  h2: 22,
-  h3: 16,
-  h4: 14,
-  body1: 30,
-  body2: 22,
-  body3: 16,
-  body4: 14,
+  h1: scale(30),
+  h2: scale(22),
+  h3: scale(16),
+  h4: scale(14),
+  body1: scale(30),
+  body2: scale(22),
+  body3: scale(16),
+  body4: scale(14),
 
   // app dimensions
   width,
