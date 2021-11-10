@@ -1,6 +1,9 @@
 import messaging from '@react-native-firebase/messaging';
 
 class fcmService {
+  public navigation: any;
+  public remoteMessage: any;
+
   async requestUserPermission() {
     const authStatus = await messaging().requestPermission();
     const enabled =

@@ -6,15 +6,15 @@ import {HomeScreen} from '~screens';
 import {Provider} from 'react-redux';
 import {store} from '~stores';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import messaging from '@react-native-firebase/messaging';
 import {fcmService, notifeeService} from '~services';
+import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createNativeStackNavigator();
 
 const DrawerMixedTab = (props: any) => {
   const navigation = useNavigation();
   useEffect(() => {
-    notifeeService.navigation = navigation;
+    fcmService.navigation = navigation;
     return notifeeService.registerOnForegroundEvent();
   });
   return <DrawerCustom {...props} />;
@@ -22,8 +22,14 @@ const DrawerMixedTab = (props: any) => {
 
 const App: React.FC<{}> = ({}) => {
   useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      SplashScreen.hide();
+    }, 1000);
     fcmService.requestUserPermission();
     fcmService.getToken();
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   // arrive fcm message when foreground

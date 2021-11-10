@@ -1,9 +1,7 @@
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
+import {fcmService} from '~services';
 
 class NotifeeService {
-  public navigation: any;
-  public remoteMessage: any;
-
   /**
    * @event foreground
    * Handle interaction press on notifee's notification
@@ -17,8 +15,8 @@ class NotifeeService {
           break;
         case EventType.PRESS:
           console.log('User pressed notification via foreground');
-          this.navigation.push('Home', {
-            id: this.remoteMessage?.data?.Room,
+          fcmService.navigation.push('Home', {
+            id: fcmService.remoteMessage?.data?.Room,
           });
           break;
       }
@@ -34,12 +32,9 @@ class NotifeeService {
    * Because this function run without React code.
    */
   registerOnBackgroundEvent() {
-    notifee.onBackgroundEvent(async ({type}) => {
+    notifee.onBackgroundEvent(async ({}) => {
       console.log('event notification from background');
       // const {notification, pressAction} = detail;
-      if (type === EventType.PRESS) {
-        this.navigation.push('Home');
-      }
       // if (type === EventType.ACTION_PRESS) {
       //   console.log('[onBackgroundEvent] ACTION_PRESS: first_action_reply');
       //   // Remove the notification
