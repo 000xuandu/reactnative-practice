@@ -1,12 +1,12 @@
 import React from 'react';
 import {Button, FlatList, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {shallowEqual} from 'react-redux';
+// import {shallowEqual} from 'react-redux';
 import {SPACE_BOTTOM_AREA} from '~constants/theme';
 import {RootState, useAppDispatch, useAppSelector} from '~stores';
 import {addNewTodoItem} from '~stores/count/countAction';
 import {Todo} from '~stores/count/countReducer';
-import {TodoItem} from './TodoItem';
+import {TodoItemMemo} from './TodoItem';
 
 const TodoScreen = () => {
   const {todoIdList, renderItem, keyExtractor, addTodoItem} =
@@ -30,13 +30,13 @@ const useTodoScreenLogic = () => {
   const todoIdList = useAppSelector(
     (rootState: RootState) =>
       rootState.countReducer.list.map((item: Todo) => item.id),
-    shallowEqual,
+    // shallowEqual,
   );
 
   const keyExtractor = (item: any) => item.toString();
 
   const renderItem = ({item}: {item: number}) => {
-    return <TodoItem key={item} id={item} />;
+    return <TodoItemMemo key={item} id={item} />;
   };
 
   const addTodoItem = () => {

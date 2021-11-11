@@ -2,7 +2,7 @@ import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect} from 'react';
 import {DrawerCustom} from '~components';
-import {HomeScreen, ParallelHeader} from '~screens';
+import {HomeScreen, ParallelHeader, TodoMemo, TodoScreen} from '~screens';
 import {Provider} from 'react-redux';
 import {store} from '~stores';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -42,13 +42,15 @@ const App: React.FC<{}> = ({}) => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="ParallelHeader"
+            initialRouteName="TodoScreen"
             screenOptions={{
               headerShown: false,
             }}>
             <Stack.Screen name="DrawerMixedTab" component={DrawerMixedTab} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="ParallelHeader" component={ParallelHeader} />
+            <Stack.Screen name="TodoScreen" component={TodoScreen} />
+            <Stack.Screen name="TodoMemo" component={TodoMemo} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

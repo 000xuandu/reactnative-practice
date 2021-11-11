@@ -5,7 +5,8 @@ import {FONTS} from '~constants';
 import {RootState, useAppSelector} from '~stores';
 import {toggleDoneById} from '~stores/count/countAction';
 import {Todo} from '~stores/count/countReducer';
-export const TodoItem = ({id}: {id: number}) => {
+
+const TodoItem = ({id}: {id: number}) => {
   const {todo, toggleDone, textStyle} = useTodoItemLogic(id);
   return (
     <View style={styles.container}>
@@ -14,6 +15,8 @@ export const TodoItem = ({id}: {id: number}) => {
     </View>
   );
 };
+
+export const TodoItemMemo = React.memo(TodoItem);
 
 const styles = StyleSheet.create({
   container: {flexDirection: 'row', padding: 4, marginHorizontal: 4},
