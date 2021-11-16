@@ -4,6 +4,7 @@ import TodoScreen from './TodoScreen/TodoScreen';
 import HeaderAnimation from './HeaderAnimation/HeaderAnimation';
 import ParallelHeader from './ParallelHeader/ParallelHeader';
 import TodoMemo from './TodoMemo/TodoMemo';
+import WatchScreen from './WatchScreen/WatchScreen';
 export {
   HomeScreen,
   PagingScreen,
@@ -11,4 +12,5 @@ export {
   HeaderAnimation,
   ParallelHeader,
   TodoMemo,
+  WatchScreen,
 };
