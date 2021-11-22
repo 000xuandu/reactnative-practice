@@ -5,7 +5,7 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: update_info_plist" time="0.041274">
+      <testcase classname="fastlane.lanes" name="0: update_android_strings" time="0.001747">
         
       </testcase>
     

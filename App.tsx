@@ -2,13 +2,20 @@ import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect} from 'react';
 import {DrawerCustom} from '~components';
-import {HomeScreen, ParallelHeader, TodoMemo, TodoScreen, WatchScreen} from '~screens';
+import {
+  HomeScreen,
+  ParallelHeader,
+  TabBarHeaderAnimation,
+  TodoMemo,
+  TodoScreen,
+  WatchScreen,
+} from '~screens';
 import {Provider} from 'react-redux';
 import {store} from '~stores';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {fcmService, notifeeService} from '~services';
 import SplashScreen from 'react-native-splash-screen';
-import { StatusBar } from 'react-native';
+import {StatusBar} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,7 +51,7 @@ const App: React.FC<{}> = ({}) => {
         <StatusBar barStyle={'dark-content'} />
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="WatchScreen"
+            initialRouteName="TabBarAnimation"
             screenOptions={{
               headerShown: false,
             }}>
@@ -54,6 +61,10 @@ const App: React.FC<{}> = ({}) => {
             <Stack.Screen name="TodoScreen" component={TodoScreen} />
             <Stack.Screen name="TodoMemo" component={TodoMemo} />
             <Stack.Screen name="WatchScreen" component={WatchScreen} />
+            <Stack.Screen
+              name="TabBarAnimation"
+              component={TabBarHeaderAnimation}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

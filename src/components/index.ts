@@ -1,2 +1,4 @@
 import DrawerCustom from './DrawerCustom/DrawerCustom';
-export {DrawerCustom};
+import {NavBar, NavBarTitle} from './NavBar';
+import {Header} from './Header';
+export {DrawerCustom, NavBar, NavBarTitle, Header};
