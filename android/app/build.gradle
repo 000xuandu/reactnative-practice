@@ -137,8 +137,8 @@ android {
         applicationId "com.myproject"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 1638160557
+        versionName "1.0.1"
         multiDexEnabled true
     }
     splits {
@@ -187,7 +187,10 @@ android {
                 output.versionCodeOverride =
                         defaultConfig.versionCode * 1000 + versionCodes.get(abi)
             }
-
+            def appName = project.env.get('APP_NAME')
+            def verName = variant.versionName
+            def time = new Date().format('dd-MM-YYYY_HH:mm')
+            output.outputFileName = "${appName}_${verName}_${time}.apk"
         }
     }
 }

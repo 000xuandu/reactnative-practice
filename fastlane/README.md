@@ -21,16 +21,26 @@ or alternatively using `brew install fastlane`
 fastlane android update_config
 ```
 Runs android's lane'
-### android build
+### android build_apk_staging
 ```
-fastlane android build
+fastlane android build_apk_staging
 ```
-Build
-### android beta
+Build APK Release Staging
+### android build_apk_production
 ```
-fastlane android beta
+fastlane android build_apk_production
 ```
-Submit a new Beta Build to Firebase App Distribution
+Build APK Release Production
+### android distribute_staging
+```
+fastlane android distribute_staging
+```
+Distribute Staging
+### android distribute_production
+```
+fastlane android distribute_production
+```
+Distribute Production
 
 ----
 

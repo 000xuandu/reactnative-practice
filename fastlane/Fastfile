@@ -1,21 +1,16 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 fastlane_require 'dotenv'
 
+# Variables
+version_code_based_timestamp = 1;
+version_name_based_package = '';
+
 before_all do |lane, options|
   Dotenv.load(".env.#{ENV['ENV']}")
+  package = load_json(json_path: "package.json")
+  version_name_based_package = package["version"]
+  version_code_based_timestamp = Time.now.to_i.to_s
 end
 
 platform :android do
@@ -23,43 +18,94 @@ platform :android do
   lane :update_config do
     update_android_strings(
       block: lambda { |strings|
-        strings['app_name'] = ENV['ANDROID_APP_NAME']
+        strings['app_name'] = ENV['APP_NAME']
+      }
+    )
+    android_set_version_code(
+      version_code: version_code_based_timestamp,
+      gradle_file: "android/app/build.gradle"
+    )
+    android_set_version_name(
+      version_name: version_name_based_package,
+      gradle_file: "android/app/build.gradle"
+    )
+  end
+
+  desc "Build APK Release Staging"
+  lane :build_apk_staging do
+    update_config
+    gradle(
+      task: 'clean assemble',
+      build_type: 'Release',
+      project_dir: 'android',
+      system_properties: {
+        "ENVFILE": "fastlane/.env.staging"
       }
     )
   end
-  
-  desc "Build"
-  lane :build do
+
+  desc "Build APK Release Production"
+  lane :build_apk_production do
     update_config
     gradle(
-      task: "assemble",
+      task: 'clean assemble',
       build_type: 'Release',
-      project_dir: ENV['ANDROID_PROJECT_PATH']
+      project_dir: 'android',
+      system_properties: {
+        "ENVFILE": "fastlane/.env.production"
+      }
     )
   end
-  
-  desc "Submit a new Beta Build to Firebase App Distribution"
-  lane :beta do
-    build
-    firebase_app_distribution(
-        app: "1:563749439527:android:c0b163b141b2f52a84e602",
-        groups: "rn-practice-test",
-        release_notes: "Lots of amazing new features to test out!"
+
+  desc "Build AAB Release Production"
+  lane :build_aab_production do
+    update_config
+    gradle(
+      task: "bundle",
+      build_type: 'Release',
+      project_dir: 'android',
+      system_properties: {
+        "ENVFILE": "fastlane/.env.production"
+      }
     )
+  end
+
+  desc "Distribute Staging"
+  lane :distribute_staging do
+      update_config
+      build_apk_staging
+      firebase_app_distribution(
+        app: "1:563749439527:android:c0b163b141b2f52a84e602",
+        android_artifact_type: "APK",
+        groups: "rn-practice-test",
+        release_notes_file: "fastlane/release-notes-staging.txt"
+      )
+  end
+
+  desc "Distribute Production"
+  lane :distribute_production do
+      update_config
+      build_apk_production
+      firebase_app_distribution(
+        app: "1:563749439527:android:c0b163b141b2f52a84e602",
+        android_artifact_type: "APK",
+        groups: "rn-practice-test",
+        release_notes_file: "fastlane/release-notes-production.txt"
+      )
   end
 end
 
 platform :ios do
   desc "Runs ios's lane"
   lane :update_config do
-    xcodeproj = "#{ENV['IOS_PROJECT_PATH']}/#{ENV['IOS_PROJECT_NAME']}.xcodeproj"
+    xcodeproj = "ios/#{ENV['IOS_PROJECT_NAME']}.xcodeproj"
     plist_path = "#{ENV['IOS_PROJECT_NAME']}/Info.plist"
     update_info_plist(
       xcodeproj: xcodeproj,
       plist_path: plist_path,
       block: lambda { |plist|
-        plist['CFBundleName'] = ENV['IOS_APP_NAME']
-        plist['CFBundleDisplayName'] = ENV['IOS_APP_NAME']
+        plist['CFBundleName'] = ENV['APP_NAME']
+        plist['CFBundleDisplayName'] = ENV['APP_NAME']
       },
     )
   end
