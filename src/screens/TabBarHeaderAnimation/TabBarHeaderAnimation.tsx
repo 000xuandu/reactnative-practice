@@ -11,6 +11,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {SceneMap, TabView} from 'react-native-tab-view';
 import {Header, NavBar, NavBarTitle} from '~components';
 import {SIZES} from '~constants';
+import CustomIcon from '~utils/CustomIcon';
 import {scale} from '~utils/ScalingUtils';
 
 const DATA = Array(40)
@@ -112,8 +113,10 @@ export default function TabBarHeaderAnimation() {
                 extrapolate: 'clamp',
               }),
             }),
+            flexDirection: 'row',
           }}>
           <NavBarTitle />
+          <CustomIcon name="Left" size={scale(18)} />
         </Animated.View>
       </NavBar>
 

@@ -55,11 +55,6 @@ Distribute Production
 fastlane ios update_config
 ```
 Runs ios's lane
-### ios distribute_staging
-```
-fastlane ios distribute_staging
-```
-Distribute Staging
 
 ----
 

@@ -14,14 +14,12 @@
     "update-config-ios-prod": "bundle exec fastlane ios update_config --env production",
     "update-config-android-staging": "bundle exec fastlane android update_config --env staging",
     "update-config-android-prod": "bundle exec fastlane android update_config --env production",
-
     "android:staging": "yarn update-config-android-staging && ENVFILE=./fastlane/.env.staging npx react-native run-android",
     "android:prod": "yarn update-config-android-prod && ENVFILE=./fastlane/.env.production npx react-native run-android",
     "android:build:staging": "bundle exec fastlane android build_apk_staging --env staging",
     "android:build:prod": "bundle exec fastlane android build_apk_production --env production",
     "android:deploy:staging": "bundle exec fastlane android distribute_staging --env staging",
     "android:deploy:prod": "bundle exec fastlane android distribute_production --env production",
-
     "ios:staging": "yarn update-config-ios-staging && ENVFILE=./fastlane/.env.staging react-native run-ios",
     "ios:prod": "yarn update-config-ios-prod && ENVFILE=./fastlane/.env.production react-native run-ios"
   },
@@ -48,6 +46,7 @@
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.1",
     "react-native-tab-view": "^3.1.1",
+    "react-native-vector-icons": "^9.0.0",
     "react-native-video": "^5.2.0",
     "react-redux": "^7.2.6",
     "redux": "^4.1.1",
@@ -62,6 +61,7 @@
     "@types/jest": "^27.0.2",
     "@types/react": "^17.0.30",
     "@types/react-native": "^0.65.7",
+    "@types/react-native-vector-icons": "^6.4.10",
     "@types/react-test-renderer": "^17.0.1",
     "babel-jest": "^26.6.3",
     "babel-plugin-module-resolver": "^4.1.0",
