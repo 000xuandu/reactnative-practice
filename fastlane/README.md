@@ -31,6 +31,11 @@ Build APK Release Staging
 fastlane android build_apk_production
 ```
 Build APK Release Production
+### android build_aab_production
+```
+fastlane android build_aab_production
+```
+Build AAB Release Production
 ### android distribute_staging
 ```
 fastlane android distribute_staging
@@ -50,6 +55,11 @@ Distribute Production
 fastlane ios update_config
 ```
 Runs ios's lane
+### ios distribute_staging
+```
+fastlane ios distribute_staging
+```
+Distribute Staging
 
 ----
 

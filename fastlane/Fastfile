@@ -3,14 +3,16 @@
 fastlane_require 'dotenv'
 
 # Variables
-version_code_based_timestamp = 1;
-version_name_based_package = '';
+build_version = 1;
+android_version_name = '';
+ios_version_name = '';
 
 before_all do |lane, options|
   Dotenv.load(".env.#{ENV['ENV']}")
   package = load_json(json_path: "package.json")
-  version_name_based_package = package["version"]
-  version_code_based_timestamp = Time.now.to_i.to_s
+  android_version_name = package["android-version"]
+  ios_version_name = package["ios-version"]
+  build_version = Time.now.to_i.to_s
 end
 
 platform :android do
@@ -22,11 +24,11 @@ platform :android do
       }
     )
     android_set_version_code(
-      version_code: version_code_based_timestamp,
+      version_code: build_version,
       gradle_file: "android/app/build.gradle"
     )
     android_set_version_name(
-      version_name: version_name_based_package,
+      version_name: android_version_name,
       gradle_file: "android/app/build.gradle"
     )
   end
@@ -78,7 +80,7 @@ platform :android do
         app: "1:563749439527:android:c0b163b141b2f52a84e602",
         android_artifact_type: "APK",
         groups: "rn-practice-test",
-        release_notes_file: "fastlane/release-notes-staging.txt"
+        release_notes_file: "fastlane/android-release-notes-staging.txt"
       )
   end
 
@@ -90,7 +92,7 @@ platform :android do
         app: "1:563749439527:android:c0b163b141b2f52a84e602",
         android_artifact_type: "APK",
         groups: "rn-practice-test",
-        release_notes_file: "fastlane/release-notes-production.txt"
+        release_notes_file: "fastlane/android-release-notes-production.txt"
       )
   end
 end
@@ -100,12 +102,19 @@ platform :ios do
   lane :update_config do
     xcodeproj = "ios/#{ENV['IOS_PROJECT_NAME']}.xcodeproj"
     plist_path = "#{ENV['IOS_PROJECT_NAME']}/Info.plist"
+    update_app_identifier(
+      xcodeproj: xcodeproj,
+      plist_path: plist_path,
+      app_identifier: ENV['APP_IDENTIFIER']
+    )
     update_info_plist(
       xcodeproj: xcodeproj,
       plist_path: plist_path,
       block: lambda { |plist|
         plist['CFBundleName'] = ENV['APP_NAME']
         plist['CFBundleDisplayName'] = ENV['APP_NAME']
+        plist['CFBundleShortVersionString'] = ios_version_name
+        plist['CFBundleVersion'] = build_version
       },
     )
   end
