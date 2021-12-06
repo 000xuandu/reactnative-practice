@@ -1,6 +1,8 @@
 {
   "cSpell.words": [
-    "Roboto"
+    "Roboto",
+    "sbold",
+    "svgs"
   ],
   "typescript.validate.enable": true,
   "javascript.validate.enable": true,

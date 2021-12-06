@@ -6,6 +6,7 @@ import ParallelHeader from './ParallelHeader/ParallelHeader';
 import TodoMemo from './TodoMemo/TodoMemo';
 import WatchScreen from './WatchScreen/WatchScreen';
 import TabBarHeaderAnimation from './TabBarHeaderAnimation/TabBarHeaderAnimation';
+import SplashScreen from './SplashScreen/SplashScreen';
 export {
   HomeScreen,
   PagingScreen,
@@ -15,4 +16,6 @@ export {
   TodoMemo,
   WatchScreen,
   TabBarHeaderAnimation,
+  // Wallet App:
+  SplashScreen,
 };

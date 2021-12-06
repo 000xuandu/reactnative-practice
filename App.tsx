@@ -9,13 +9,15 @@ import {
   TodoMemo,
   TodoScreen,
   WatchScreen,
+  SplashScreen,
 } from '~screens';
 import {Provider} from 'react-redux';
 import {store} from '~stores';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {fcmService, notifeeService} from '~services';
-import SplashScreen from 'react-native-splash-screen';
+import SplashScreenModule from 'react-native-splash-screen';
 import {StatusBar} from 'react-native';
+import { COLORS } from '~constants';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +33,7 @@ const DrawerMixedTab = (props: any) => {
 const App: React.FC<{}> = ({}) => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      SplashScreen.hide();
+      SplashScreenModule.hide();
     }, 1000);
     fcmService.requestUserPermission();
     fcmService.getToken();
@@ -48,14 +50,17 @@ const App: React.FC<{}> = ({}) => {
   return (
     <SafeAreaProvider>
       <Provider store={store}>
-        <StatusBar barStyle={'dark-content'} />
+        <StatusBar
+          translucent
+          barStyle={'default'}
+          backgroundColor={'transparent'}
+        />
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="TabBarAnimation"
             screenOptions={{
               headerShown: false,
             }}>
-            <Stack.Screen name="DrawerMixedTab" component={DrawerMixedTab} />
+            {/* <Stack.Screen name="DrawerMixedTab" component={DrawerMixedTab} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="ParallelHeader" component={ParallelHeader} />
             <Stack.Screen name="TodoScreen" component={TodoScreen} />
@@ -64,7 +69,9 @@ const App: React.FC<{}> = ({}) => {
             <Stack.Screen
               name="TabBarAnimation"
               component={TabBarHeaderAnimation}
-            />
+            /> */}
+            {/* Wallet App */}
+            <Stack.Screen name="Splash" component={SplashScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

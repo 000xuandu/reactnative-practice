@@ -1,9 +1,8 @@
-import {Dimensions} from 'react-native';
+import {Dimensions, Platform} from 'react-native';
 const {width, height} = Dimensions.get('window');
 
-//Guideline sizes are based on standard ~5" screen mobile device
-const guidelineBaseWidth = 350;
-const guidelineBaseHeight = 680;
+const guidelineBaseWidth = Platform.OS === 'ios' ? 375 : 360;
+const guidelineBaseHeight = Platform.OS === 'ios' ? 667 : 640;
 
 const scale = (size: number) => (width / guidelineBaseWidth) * size;
 const heightScale = (size: number) => (height / guidelineBaseHeight) * size;
