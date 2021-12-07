@@ -10,6 +10,7 @@ import {
   TodoScreen,
   WatchScreen,
   SplashScreen,
+  SignInScreen,
 } from '~screens';
 import {Provider} from 'react-redux';
 import {store} from '~stores';
@@ -71,6 +72,7 @@ const App: React.FC<{}> = ({}) => {
               component={TabBarHeaderAnimation}
             /> */}
             {/* Wallet App */}
+            <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="Splash" component={SplashScreen} />
           </Stack.Navigator>
         </NavigationContainer>

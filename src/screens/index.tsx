@@ -7,6 +7,7 @@ import TodoMemo from './TodoMemo/TodoMemo';
 import WatchScreen from './WatchScreen/WatchScreen';
 import TabBarHeaderAnimation from './TabBarHeaderAnimation/TabBarHeaderAnimation';
 import SplashScreen from './SplashScreen/SplashScreen';
+import SignInScreen from './SignInScreen/SignInScreen';
 export {
   HomeScreen,
   PagingScreen,
@@ -18,4 +19,5 @@ export {
   TabBarHeaderAnimation,
   // Wallet App:
   SplashScreen,
+  SignInScreen,
 };
