@@ -5,17 +5,17 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: load_json" time="0.000929">
+      <testcase classname="fastlane.lanes" name="0: load_json" time="0.000597">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: update_app_identifier" time="0.128394">
+      <testcase classname="fastlane.lanes" name="1: update_app_identifier" time="0.194011">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: update_info_plist" time="0.015005">
+      <testcase classname="fastlane.lanes" name="2: update_info_plist" time="0.019026">
         
       </testcase>
     

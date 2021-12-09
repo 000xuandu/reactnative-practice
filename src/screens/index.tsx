@@ -8,6 +8,7 @@ import WatchScreen from './WatchScreen/WatchScreen';
 import TabBarHeaderAnimation from './TabBarHeaderAnimation/TabBarHeaderAnimation';
 import SplashScreen from './SplashScreen/SplashScreen';
 import SignInScreen from './SignInScreen/SignInScreen';
+import OtpScreen from './OtpScreen/OtpScreen';
 export {
   HomeScreen,
   PagingScreen,
@@ -20,4 +21,5 @@ export {
   // Wallet App:
   SplashScreen,
   SignInScreen,
+  OtpScreen,
 };

@@ -11,6 +11,7 @@ import {
   WatchScreen,
   SplashScreen,
   SignInScreen,
+  OtpScreen,
 } from '~screens';
 import {Provider} from 'react-redux';
 import {store} from '~stores';
@@ -18,7 +19,6 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {fcmService, notifeeService} from '~services';
 import SplashScreenModule from 'react-native-splash-screen';
 import {StatusBar} from 'react-native';
-import { COLORS } from '~constants';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +72,7 @@ const App: React.FC<{}> = ({}) => {
               component={TabBarHeaderAnimation}
             /> */}
             {/* Wallet App */}
+            <Stack.Screen name="Otp" component={OtpScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="Splash" component={SplashScreen} />
           </Stack.Navigator>
