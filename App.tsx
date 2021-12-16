@@ -12,6 +12,7 @@ import {
   SplashScreen,
   SignInScreen,
   OtpScreen,
+  TodoMobX,
 } from '~screens';
 import {Provider} from 'react-redux';
 import {store} from '~stores';
@@ -71,6 +72,7 @@ const App: React.FC<{}> = ({}) => {
               name="TabBarAnimation"
               component={TabBarHeaderAnimation}
             /> */}
+            <Stack.Screen name="TodoMobx" component={TodoMobX} />
             {/* Wallet App */}
             <Stack.Screen name="Otp" component={OtpScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
