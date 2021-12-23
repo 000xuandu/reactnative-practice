@@ -14,26 +14,12 @@ target 'MyProject' do
 
   # add the Firebase pod for Google Analytics
   pod 'Firebase/Analytics'
-  
-  target 'MyProjectTests' do
-    inherit! :complete
-    # Pods for testing
-  end
 
   # you should disable the next line.
-  # use_flipper!()
+  use_flipper!()
   
   post_install do |installer|
     react_native_post_install(installer)
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
-  end
-end
-
-target 'MyProject-tvOS' do
-  # Pods for MyProject-tvOS
-
-  target 'MyProject-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
   end
 end

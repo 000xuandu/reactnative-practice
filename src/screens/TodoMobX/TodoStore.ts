@@ -1,58 +1,46 @@
-import {action, autorun, computed, makeObservable, observable} from 'mobx';
-
-export interface TodoProps {
-  task: string;
-  completed: boolean;
-  assignee: string | null;
-}
-
-const peopleStore = observable([{name: 'Michel'}, {name: 'Me'}]);
+import {flow, makeAutoObservable} from 'mobx';
+import { Alert } from 'react-native';
+import {todoAPIs} from '~apis';
+import {ParamsAPIs} from '~models/common';
+import {Todo} from '~models/user';
 
 class ObservableTodoStore {
-  todos: Array<TodoProps> = [];
-  pendingRequests: number = 0;
+  todoList: Array<Todo> = [];
+  isLoading: boolean = true;
 
   constructor() {
-    makeObservable(this, {
-      todos: observable,
-      pendingRequests: observable,
-      completedTodosCount: computed,
-      report: computed,
-      addTodo: action,
-      assignTask: action,
-    });
-    autorun(() => {
-      console.log(this.report);
+    makeAutoObservable(this, {
+      fetchTodoList: flow,
     });
   }
 
-  get completedTodosCount() {
-    return this.todos.filter(todo => todo.completed === true).length;
-  }
-
-  get report() {
-    if (this.todos.length === 0) {
-      return '<none>';
+  *fetchTodoList(params?: ParamsAPIs) {
+    this.todoList = [];
+    this.isLoading = true;
+    try {
+      const userList: Array<Todo> = yield todoAPIs.getAll(params);
+      this.todoList = userList;
+      console.log(this.todoList);
+    } catch (error) {
+      console.log('fetchTodoList: ', error);
+    } finally {
+      this.isLoading = false;
     }
-    const nextTodo = this.todos.find(todo => todo.completed === false);
-    return (
-      `Next todo: "${nextTodo ? nextTodo.task : '<none>'}". ` +
-      `Progress: ${this.completedTodosCount}/${this.todos.length}`
+  }
+
+  deleteTodoItem(todoId: number) {
+    this.todoList = this.todoList?.filter(todo => todo.id !== todoId);
+  }
+
+  toggleCompleted(todoId: number) {
+    this.todoList = this.todoList.map(todo =>
+      todo.id === todoId
+        ? {
+            ...todo,
+            completed: !todo.completed,
+          }
+        : todo,
     );
-  }
-
-  assignTask() {
-    observableTodoStore.todos[0].assignee = peopleStore[0].name;
-    observableTodoStore.todos[1].assignee = peopleStore[1].name;
-    peopleStore[0].name = 'Michel Weststrate';
-  }
-
-  addTodo(task: string) {
-    this.todos.push({
-      task: task,
-      completed: false,
-      assignee: null,
-    });
   }
 }
 

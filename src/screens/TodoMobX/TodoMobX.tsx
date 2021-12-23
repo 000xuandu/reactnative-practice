@@ -1,64 +1,119 @@
-import {action, observable} from 'mobx';
 import {observer} from 'mobx-react';
-import React, {useState} from 'react';
-import {Button, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, {memo, useCallback, useEffect, useState} from 'react';
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {observableTodoStore, TodoProps} from './TodoStore';
+import {CustomIcon} from '~components';
+import {COLORS, SIZES} from '~constants';
+import {Todo} from '~models/user';
+import {observableTodoStore} from './TodoStore';
 
-const TodoItem = observer(({item, index}: {item: TodoProps; index: number}) => {
-  console.log('render: ', index);
-  const setToggleStatus = action(() => {
-    observableTodoStore.todos[index].completed =
-      !observableTodoStore.todos[index].completed;
-  });
-  return (
-    <TouchableOpacity onPress={setToggleStatus}>
-      <Text>
-        {item.task} {item.assignee} {item.completed ? 'DONE' : 'OPEN'}
-      </Text>
-    </TouchableOpacity>
-  );
-});
+const TodoItem = memo(
+  ({todo, onChangeText}: {todo: Todo; onChangeText: (todo: Todo) => void}) => {
+    console.log('re-render');
+    const deleteTodoItem = () => {
+      if (!todo?.id) {
+        return;
+      }
+      observableTodoStore.deleteTodoItem(todo.id);
+    };
+
+    const toggleComplete = () => {
+      if (!todo?.id) {
+        return;
+      }
+      observableTodoStore.toggleCompleted(todo.id);
+    };
+
+    return (
+      <TouchableOpacity
+        onPress={() => onChangeText(todo)}
+        style={styles.todoItem}>
+        <View style={styles.textWrapper}>
+          <Text>{todo.title} </Text>
+          <TouchableOpacity onPress={toggleComplete}>
+            <Text>{todo.completed ? 'DONE' : 'NOT YET'}</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.iconGroup}>
+          <TouchableOpacity>
+            <CustomIcon
+              name={'Calendar-1'}
+              size={SIZES.spacing_24_horizontal}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={deleteTodoItem}>
+            <CustomIcon
+              name={'Clear_symbol'}
+              size={SIZES.spacing_24_horizontal}
+            />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    );
+  },
+);
 
 const TodoMobX = () => {
-  const peopleStore = observable([{name: 'Michel'}, {name: 'Me'}]);
+  const [temp, setTemp] = useState<number>(1);
+  useEffect(() => {
+    const fetchTodoList = async () => {
+      observableTodoStore.fetchTodoList({_limit: 30});
+    };
+    fetchTodoList();
+  }, []);
 
-  const addTodoItem = () => {
-    observableTodoStore.addTodo('the first todo');
-  };
+  useEffect(() => {
+    const timeoutId = setInterval(() => {
+      // Test re-render of todo item
+      console.log('increment');
+      setTemp(prev => (prev += 1));
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, []);
 
-  const setTodoCompleted = action(() => {
-    observableTodoStore.todos[0].completed = true;
-  });
-
-  const addTodoAsync = action(() => {
-    observableTodoStore.pendingRequests++;
-    setTimeout(
-      action(() => {
-        addTodoItem();
-        observableTodoStore.pendingRequests--;
-      }),
-      2000,
-    );
-  });
-
-  const assignTask = action(() => {
-    observableTodoStore.assignTask();
-  });
+  const onChangeText = useCallback((todo: Todo) => {
+    Alert.alert(todo?.title);
+  }, []);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <Button title={'addTodo'} onPress={addTodoItem} />
-      <Button title={'setTodoCompleted'} onPress={setTodoCompleted} />
-      <Button title={'addTodoAsync'} onPress={addTodoAsync} />
-      <Button title={'assignTask'} onPress={assignTask} />
-      {observableTodoStore.todos.map((item, index) => (
-        <TodoItem key={index} item={item} index={index} />
-      ))}
-      {observableTodoStore.pendingRequests > 0 && <Text>Loading...</Text>}
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.container}>
+        {observableTodoStore.isLoading ? (
+          <View>
+            <Text>Loading...</Text>
+          </View>
+        ) : (
+          observableTodoStore.todoList?.map(todo => {
+            return (
+              <TodoItem onChangeText={onChangeText} key={todo.id} todo={todo} />
+            );
+          })
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default observer(TodoMobX);
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {flex: 1},
+  todoItem: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: COLORS.secondary.gray_3,
+
+    marginHorizontal: SIZES.spacing_8_horizontal,
+    marginBottom: SIZES.spacing_8_vertical,
+  },
+  textWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  iconGroup: {
+    flexDirection: 'row',
+    height: '100%',
+    alignItems: 'center',
+  },
+});
