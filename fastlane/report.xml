@@ -5,17 +5,22 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: load_json" time="0.000562">
+      <testcase classname="fastlane.lanes" name="0: load_json" time="0.000662">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: update_app_identifier" time="0.115765">
+      <testcase classname="fastlane.lanes" name="1: update_android_strings" time="0.001302">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: update_info_plist" time="0.012097">
+      <testcase classname="fastlane.lanes" name="2: android_set_version_code" time="0.003945">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: android_set_version_name" time="0.002096">
         
       </testcase>
     

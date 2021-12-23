@@ -153,7 +153,7 @@ const TabNav = ({}: any) => {
         screenOptions={{
           headerShown: false,
         }}
-        tabBar={(props) => <MyTabBar {...props} />}>
+        tabBar={props => <MyTabBar {...props} />}>
         <Tab.Screen name="Paging" component={PagingScreen} />
         <Tab.Screen name="Header" component={HeaderAnimation} />
         <Tab.Screen name="Paging2" component={PagingScreen} />
@@ -182,7 +182,7 @@ const DrawerCustom = ({}: any) => {
   return (
     <View style={styles.container}>
       <Drawer.Navigator
-        drawerContent={(props) => <CustomDrawerContent {...props} />}
+        drawerContent={props => <CustomDrawerContent {...props} />}
         screenOptions={{
           headerShown: false,
           drawerStyle: {
@@ -197,7 +197,7 @@ const DrawerCustom = ({}: any) => {
           },
         }}>
         <Drawer.Screen name="TabNav">
-          {(props) => <TabNav {...props} />}
+          {props => <TabNav {...props} />}
         </Drawer.Screen>
       </Drawer.Navigator>
     </View>

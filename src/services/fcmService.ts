@@ -1,4 +1,5 @@
 import messaging from '@react-native-firebase/messaging';
+import {notifeeService} from '~services';
 
 class fcmService {
   public navigation: any;
@@ -32,6 +33,7 @@ class fcmService {
         'A new FCM message arrived!',
         JSON.stringify(remoteMessage.data),
       );
+      notifeeService.displayNotification();
     });
   }
 

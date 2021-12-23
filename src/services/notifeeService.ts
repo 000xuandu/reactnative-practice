@@ -2,13 +2,26 @@ import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
 import {fcmService} from '~services';
 
 class NotifeeService {
+  private channelId: string = '';
+
+  private async createChannelForAndroid() {
+    // delete chanel if exits
+    await notifee.deleteChannel('important');
+    // Create a channel
+    this.channelId = await notifee.createChannel({
+      id: 'important',
+      name: 'Important Notifications',
+      importance: AndroidImportance.HIGH,
+    });
+  }
+
   /**
    * @event foreground
    * Handle interaction press on notifee's notification
    * You can change UI, navigate to another screen
    */
   registerOnForegroundEvent() {
-    const unsubscribe = notifee.onForegroundEvent(({type}) => {
+    notifee.onForegroundEvent(({type}) => {
       switch (type) {
         case EventType.DISMISSED:
           console.log('User dismissed notification');
@@ -21,7 +34,6 @@ class NotifeeService {
           break;
       }
     });
-    return unsubscribe;
   }
 
   /**
@@ -46,20 +58,14 @@ class NotifeeService {
   }
 
   async displayNotification() {
-    //  delete chanel if exits
-    await notifee.deleteChannel('important');
-    // Create a channel
-    const channelId = await notifee.createChannel({
-      id: 'important',
-      name: 'Important Notifications',
-      importance: AndroidImportance.HIGH,
-    });
-
+    if (!this.channelId) {
+      await this.createChannelForAndroid();
+    }
     const notificationBasic = {
       title: 'Notification Title',
       body: 'Main body content of the notification',
       android: {
-        channelId,
+        channelId: this.channelId,
         smallIcon: 'ic_notification', // optional, defaults to 'ic_launcher'.
         color: '#9c27b0',
         pressAction: {
@@ -71,7 +77,8 @@ class NotifeeService {
     try {
       await notifee.displayNotification(notificationBasic);
     } catch (e) {
-      console.warn('[displayNotification]: ', e);
+      console.log('this.channelId: ', this.channelId);
+      console.error('[displayNotification]: ', e);
     }
   }
 }
