@@ -1,4 +1,5 @@
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
+import { firebase } from '@react-native-firebase/messaging';
 import {fcmService} from '~services';
 
 class NotifeeService {
@@ -68,6 +69,7 @@ class NotifeeService {
         channelId: this.channelId,
         smallIcon: 'ic_notification', // optional, defaults to 'ic_launcher'.
         color: '#9c27b0',
+        badgeCount: Math.floor(Math.random() * 40),
         pressAction: {
           id: 'default',
         },

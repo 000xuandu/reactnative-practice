@@ -11,3 +11,8 @@ export interface ParamsAPIs {
 export interface ListResponse<T> {
   data: T[];
 }
+
+export interface ActionReducer {
+  readonly type: string;
+  readonly payload?: any;
+}
