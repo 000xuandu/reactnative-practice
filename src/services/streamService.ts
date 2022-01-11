@@ -27,7 +27,7 @@ export default class StreamService {
         facingMode: isFront ? 'user' : 'environment',
       },
     });
-    if (typeof stream != 'boolean') return stream;
+    if (typeof stream !== 'boolean') return stream;
     return null;
   }
 }

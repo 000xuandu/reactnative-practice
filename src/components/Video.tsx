@@ -11,8 +11,8 @@ interface Props {
 
 const ButtonContainer: FC<Props> = ({hangup}) => {
   return (
-    <View style={{}}>
-      <Button iconName="phone" backgroundColor="read" onPress={hangup} />
+    <View style={{marginBottom: 30}}>
+      <Button iconName="phone" backgroundColor="red" onPress={hangup} />
     </View>
   );
 };
@@ -27,6 +27,7 @@ const Video: FC<Props> = ({hangup, localStream, remoteStream}) => {
           objectFit="cover"
           style={styles.video}
         />
+        <ButtonContainer hangup={hangup} />
       </View>
     );
   }
@@ -45,6 +46,7 @@ const Video: FC<Props> = ({hangup, localStream, remoteStream}) => {
           objectFit="cover"
           style={styles.videoLocal}
         />
+        <ButtonContainer hangup={hangup} />
       </View>
     );
   }
