@@ -11,6 +11,8 @@ import SignInScreen from './SignInScreen/SignInScreen';
 import OtpScreen from './OtpScreen/OtpScreen';
 import TodoMobX from './TodoMobX/TodoMobX';
 import WebRTCScreen from './WebRTC/WebRTCScreen';
+import Transition3D from './Transition3D/Transition3D';
+
 export {
   HomeScreen,
   PagingScreen,
@@ -22,6 +24,7 @@ export {
   TabBarHeaderAnimation,
   TodoMobX,
   WebRTCScreen,
+  Transition3D,
   // Wallet App:
   SplashScreen,
   SignInScreen,
