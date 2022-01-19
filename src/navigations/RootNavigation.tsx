@@ -4,6 +4,9 @@ import {AuthFlow} from './AuthFlow';
 import SplashScreenModule from 'react-native-splash-screen';
 import {fcmService, notifeeService} from '~services';
 import {MainFlow} from './MainFlow';
+import {QueryClient, QueryClientProvider} from 'react-query';
+
+export const queryClient = new QueryClient();
 
 export const RootNavigation = ({}: any) => {
   const [isLoggedIn] = useState<boolean>(true);
@@ -21,7 +24,9 @@ export const RootNavigation = ({}: any) => {
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? <MainFlow /> : <AuthFlow />}
+      <QueryClientProvider client={queryClient}>
+        {isLoggedIn ? <MainFlow /> : <AuthFlow />}
+      </QueryClientProvider>
     </NavigationContainer>
   );
 };
