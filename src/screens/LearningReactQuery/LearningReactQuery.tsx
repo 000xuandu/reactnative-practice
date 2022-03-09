@@ -11,19 +11,19 @@ interface SuperHeroProps {
 }
 
 const LearningReactQuery = ({navigation}) => {
-  const {
-    status,
-    error,
-    isFetching,
-    isFetchingNextPage,
-    isFetchingPreviousPage,
-    hasPreviousPage,
-    fetchPreviousPage,
-    data: posts,
-    fetchNextPage,
-    hasNextPage,
-    refetch,
-  } = useGetPost();
+  // const {
+  //   status,
+  //   error,
+  //   isFetching,
+  //   isFetchingNextPage,
+  //   isFetchingPreviousPage,
+  //   hasPreviousPage,
+  //   fetchPreviousPage,
+  //   data: posts,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   refetch,
+  // } = useGetPost();
 
   const onEndReached = () => {
     if (!hasNextPage) {

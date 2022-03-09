@@ -778,7 +778,7 @@ PODS:
   - React-jsinspector (0.67.0-rc.5)
   - React-logger (0.67.0-rc.5):
     - glog
-  - react-native-change-icon (3.1.2):
+  - react-native-change-icon (3.1.1):
     - React
   - react-native-config (1.4.5):
     - react-native-config/App (= 1.4.5)
@@ -1185,7 +1185,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 26858b8a803006226539eaae857d5ec0067e9fe0
   React-jsinspector: 6af2859a1b63f8e0a0c52919fb92dd4488eaf632
   React-logger: c21d2aa2d1827774c3bdb218b4243412cfea84c1
-  react-native-change-icon: d69ab47653d179699ba28e4c8f276728ca17d32a
+  react-native-change-icon: 6c1776d686d67e048e01652f891a11b665d01836
   react-native-config: 6502b1879f97ed5ac570a029961fc35ea606cd14
   react-native-flipper: bb8caa2e42294b4f145365138cf4941a125fe953
   react-native-pager-view: 3ee7d4c7697fb3ef788346e834a60cca97ed8540
