@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   textWrapper: {
     width: 150,
     height: 50,
-    backgroundColor: 'pink',
+    backgroundColor: 'yellow',
   },
   progressBar: {
     position: 'absolute',

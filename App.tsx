@@ -1,10 +1,11 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
+import codePush from 'react-native-code-push';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {QueryClient, QueryClientProvider} from 'react-query';
 import {Provider} from 'react-redux';
 import {RootNavigation} from '~navigations/RootNavigation';
 import {store} from '~stores';
-import {QueryClient, QueryClientProvider} from 'react-query';
 
 const queryClient = new QueryClient();
 
@@ -31,4 +32,4 @@ const App: React.FC<{}> = ({}) => {
   );
 };
 
-export default App;
+export default codePush(App);
