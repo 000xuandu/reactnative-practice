@@ -4,7 +4,9 @@ import React, {useEffect} from 'react';
 import {DrawerCustom} from '~components';
 import {
   CornersAnimation,
+  DragBallAnimation,
   KittenCardsAnimation,
+  LayoutAnimationScreen,
   LearningReactQuery,
   LearningUseMutation,
   ProgressBarButtonAnimation,
@@ -31,6 +33,14 @@ export const MainFlow = ({}: any) => {
       screenOptions={{
         headerShown: false,
       }}>
+      <MainFlowStack.Screen
+        name="DragBallAnimation"
+        component={DragBallAnimation}
+      />
+      <MainFlowStack.Screen
+        name="LayoutAnimation"
+        component={LayoutAnimationScreen}
+      />
       <MainFlowStack.Screen
         name="ProgressBarButtonAnimation"
         component={ProgressBarButtonAnimation}

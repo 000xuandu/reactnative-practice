@@ -1,6 +1,7 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
 import codePush from 'react-native-code-push';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {Provider} from 'react-redux';
@@ -17,18 +18,20 @@ if (__DEV__) {
 
 const App: React.FC<{}> = ({}) => {
   return (
-    <SafeAreaProvider>
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <StatusBar
-            translucent
-            barStyle={'default'}
-            backgroundColor={'transparent'}
-          />
-          <RootNavigation />
-        </Provider>
-      </QueryClientProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <SafeAreaProvider>
+        <QueryClientProvider client={queryClient}>
+          <Provider store={store}>
+            <StatusBar
+              translucent
+              barStyle={'default'}
+              backgroundColor={'transparent'}
+            />
+            <RootNavigation />
+          </Provider>
+        </QueryClientProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 };
 
