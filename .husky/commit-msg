@@ -1,0 +1,13 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Get commit message:
+# Ref: https://stackoverflow.com/a/44423052
+INPUT_FILE=$1
+START_LINE=`head -n1 $INPUT_FILE`
+PATTERN="(feat|fix|style):(.+)"
+
+if ! [[ "$START_LINE" =~ $PATTERN ]]; then
+  echo "Bad commit message, see example: MYPROJ-123: commit message"
+  exit 1
+fi

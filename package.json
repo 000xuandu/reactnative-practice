@@ -136,7 +136,9 @@
   },
   "lint-staged": {
     "!*.{json,md,lock}": [
-      "yarn lint",
+      "yarn lint"
+    ],
+    "/__tests__/": [
       "yarn test"
     ]
   }
