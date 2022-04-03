@@ -1,12 +1,6 @@
-import React from 'react';
-import {
-  Animated,
-  LayoutChangeEvent,
-  StyleSheet,
-  TouchableOpacity,
-  ViewStyle,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React from "react";
+import { Animated, LayoutChangeEvent, StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const SQUARE_SIZE = 100;
 
@@ -15,7 +9,7 @@ interface LayoutValueProps {
   height: number | null;
 }
 
-const CornersAnimation = () => {
+function CornersAnimation() {
   const animation = React.useRef(new Animated.ValueXY()).current;
   const layoutValue = React.useRef<LayoutValueProps>({
     width: null,
@@ -56,15 +50,12 @@ const CornersAnimation = () => {
 
   return (
     <SafeAreaView style={styles.fullScreen}>
-      <TouchableOpacity
-        onLayout={onLayoutTouchable}
-        onPress={onPress}
-        style={[styles.fullScreen]}>
+      <TouchableOpacity onLayout={onLayoutTouchable} onPress={onPress} style={[styles.fullScreen]}>
         <Animated.View style={[styles.redSquare, squareAnimatedStyle]} />
       </TouchableOpacity>
     </SafeAreaView>
   );
-};
+}
 
 export default CornersAnimation;
 
@@ -75,6 +66,6 @@ const styles = StyleSheet.create({
   redSquare: {
     width: SQUARE_SIZE,
     height: SQUARE_SIZE,
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
 });

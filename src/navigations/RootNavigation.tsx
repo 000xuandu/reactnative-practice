@@ -1,14 +1,14 @@
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {AuthFlow} from './AuthFlow';
-import SplashScreenModule from 'react-native-splash-screen';
-import {fcmService, notifeeService} from '~services';
-import {MainFlow} from './MainFlow';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import { NavigationContainer } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import SplashScreenModule from "react-native-splash-screen";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { AuthFlow } from "./AuthFlow";
+import { fcmService, notifeeService } from "~services";
+import { MainFlow } from "./MainFlow";
 
 export const queryClient = new QueryClient();
 
-export const RootNavigation = ({}: any) => {
+export function RootNavigation({}: any) {
   const [isLoggedIn] = useState<boolean>(true);
 
   useEffect(() => {
@@ -24,9 +24,7 @@ export const RootNavigation = ({}: any) => {
 
   return (
     <NavigationContainer>
-      <QueryClientProvider client={queryClient}>
-        {isLoggedIn ? <MainFlow /> : <AuthFlow />}
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{isLoggedIn ? <MainFlow /> : <AuthFlow />}</QueryClientProvider>
     </NavigationContainer>
   );
-};
+}

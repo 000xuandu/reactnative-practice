@@ -1,14 +1,7 @@
-import React from 'react';
-import {
-  Animated,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {COLORS} from '~constants';
+import React from "react";
+import { Animated, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { COLORS } from "~constants";
 
 export default function ProgressBarButtonAnimation() {
   const animation = React.useRef(new Animated.Value(0)).current;
@@ -21,7 +14,7 @@ export default function ProgressBarButtonAnimation() {
       toValue: 1,
       duration: 1000,
       useNativeDriver: false,
-    }).start(({finished}) => {
+    }).start(({ finished }) => {
       if (finished) {
         Animated.timing(opacity, {
           toValue: 0,
@@ -35,15 +28,15 @@ export default function ProgressBarButtonAnimation() {
   const animatedProgressBar: Animated.AnimatedProps<ViewStyle> = {
     width: animation.interpolate({
       inputRange: [0, 1],
-      outputRange: ['0%', '100%'],
-      extrapolate: 'clamp',
+      outputRange: ["0%", "100%"],
+      extrapolate: "clamp",
     }),
     backgroundColor: animation.interpolate({
       inputRange: [0, 1],
-      outputRange: ['rgb(71, 255, 99)', 'rgb(99,71,255)'],
-      extrapolate: 'clamp',
+      outputRange: ["rgb(71, 255, 99)", "rgb(99,71,255)"],
+      extrapolate: "clamp",
     }),
-    opacity: opacity,
+    opacity,
   };
 
   return (
@@ -66,17 +59,17 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   centerView: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   textWrapper: {
     width: 150,
     height: 50,
-    backgroundColor: 'yellow',
+    backgroundColor: "yellow",
   },
   progressBar: {
-    position: 'absolute',
-    backgroundColor: 'red',
+    position: "absolute",
+    backgroundColor: "red",
     bottom: 0,
     left: 0,
     height: 5,

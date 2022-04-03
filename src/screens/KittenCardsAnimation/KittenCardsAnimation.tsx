@@ -1,6 +1,5 @@
-import React from 'react';
+import React from "react";
 import {
-  Alert,
   Animated,
   FlatList,
   GestureResponderEvent,
@@ -10,54 +9,44 @@ import {
   Text,
   View,
   ViewStyle,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {COLORS, images, SIZES} from '~constants';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { COLORS, images, SIZES } from "~constants";
 
 const SWIPE_THRESHOLD = 230;
 function clamp(value: number, min: number, max: number) {
-  return min < max
-    ? value < min
-      ? min
-      : value > max
-      ? max
-      : value
-    : value < max
-    ? max
-    : value > min
-    ? min
-    : value;
+  return min < max ? (value < min ? min : value > max ? max : value) : value < max ? max : value > min ? min : value;
 }
 
 const data = [
   {
     image: images.headerImage,
     id: 1,
-    text: 'Image 1',
+    text: "Image 1",
   },
   {
     image: images.headerImage,
     id: 2,
-    text: 'Image 2',
+    text: "Image 2",
   },
   {
     image: images.headerImage,
     id: 3,
-    text: 'Image 3',
+    text: "Image 3",
   },
   {
     image: images.headerImage,
     id: 4,
-    text: 'Image 4',
+    text: "Image 4",
   },
   {
     image: images.headerImage,
     id: 5,
-    text: 'Image 5',
+    text: "Image 5",
   },
 ];
 
-const KittenCardsAnimation = () => {
+function KittenCardsAnimation() {
   const [items, setItems] = React.useState(data);
   const animation = React.useRef(new Animated.ValueXY()).current;
   const animationNext = React.useRef(new Animated.Value(0.9)).current;
@@ -73,12 +62,9 @@ const KittenCardsAnimation = () => {
           dy: animation.y,
         },
       ],
-      {useNativeDriver: false},
+      { useNativeDriver: false }
     ),
-    onPanResponderRelease: (
-      _e: GestureResponderEvent,
-      {dx, vx, vy}: PanResponderGestureState,
-    ) => {
+    onPanResponderRelease: (_e: GestureResponderEvent, { dx, vx, vy }: PanResponderGestureState) => {
       let velocity = 1;
       if (vx >= 0) {
         velocity = clamp(vx, 3, 5);
@@ -88,13 +74,13 @@ const KittenCardsAnimation = () => {
 
       if (Math.abs(dx) >= SWIPE_THRESHOLD) {
         Animated.decay(animation, {
-          velocity: {x: velocity, y: vy},
+          velocity: { x: velocity, y: vy },
           deceleration: 0.98,
           useNativeDriver: false,
         }).start(transactionNext);
       } else {
         Animated.spring(animation, {
-          toValue: {x: 0, y: 0},
+          toValue: { x: 0, y: 0 },
           friction: 4,
           useNativeDriver: false,
         }).start();
@@ -104,7 +90,7 @@ const KittenCardsAnimation = () => {
 
   React.useEffect(() => {
     animationNext.setValue(0.9);
-    animation.setValue({x: 0, y: 0});
+    animation.setValue({ x: 0, y: 0 });
   }, [animation, animationNext, items]);
 
   const transactionNext = () => {
@@ -121,68 +107,55 @@ const KittenCardsAnimation = () => {
     });
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     const isLastItem = index === items.length - 1;
     const panHandlers = isLastItem ? panResponder.panHandlers : {};
 
-    const cardAnimationStyle: Animated.AnimatedProps<ViewStyle> | null =
-      isLastItem
-        ? {
-            opacity: animation.x.interpolate({
-              inputRange: [-200, 0, 200],
-              outputRange: [0.5, 1, 0.5],
-              extrapolate: 'clamp',
-            }),
-            transform: [
-              {
-                rotate: animation.x.interpolate({
-                  inputRange: [-200, 0, 200],
-                  outputRange: ['-15deg', '0deg', '15deg'],
-                  extrapolate: 'clamp',
-                }),
-              },
-              ...animation.getTranslateTransform(),
-            ],
-          }
-        : null;
+    const cardAnimationStyle: Animated.AnimatedProps<ViewStyle> | null = isLastItem
+      ? {
+          opacity: animation.x.interpolate({
+            inputRange: [-200, 0, 200],
+            outputRange: [0.5, 1, 0.5],
+            extrapolate: "clamp",
+          }),
+          transform: [
+            {
+              rotate: animation.x.interpolate({
+                inputRange: [-200, 0, 200],
+                outputRange: ["-15deg", "0deg", "15deg"],
+                extrapolate: "clamp",
+              }),
+            },
+            ...animation.getTranslateTransform(),
+          ],
+        }
+      : null;
 
-    const cardNextAnimationStyle: Animated.AnimatedProps<ViewStyle> | {} =
-      isLastItem
-        ? {}
-        : {
-            transform: [{scale: animationNext}],
-          };
+    const cardNextAnimationStyle: Animated.AnimatedProps<ViewStyle> | {} = isLastItem
+      ? {}
+      : {
+          transform: [{ scale: animationNext }],
+        };
 
     return (
-      <Animated.View
-        {...panHandlers}
-        style={[styles.card, cardAnimationStyle, cardNextAnimationStyle]}>
-        <Animated.Image
-          source={item.image}
-          resizeMode="cover"
-          style={[styles.image]}
-        />
+      <Animated.View {...panHandlers} style={[styles.card, cardAnimationStyle, cardNextAnimationStyle]}>
+        <Animated.Image source={item.image} resizeMode="cover" style={[styles.image]} />
         <Text style={styles.lowerText}>{item.text}</Text>
       </Animated.View>
     );
   };
 
-  const keyExtractor = item => item.id;
+  const keyExtractor = (item) => item.id;
 
   return (
     <SafeAreaView style={styles.fullView}>
       <View style={styles.top}>
-        <FlatList
-          scrollEnabled={false}
-          data={items}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-        />
+        <FlatList scrollEnabled={false} data={items} renderItem={renderItem} keyExtractor={keyExtractor} />
       </View>
-      <View style={styles.bottomBar}></View>
+      <View style={styles.bottomBar} />
     </SafeAreaView>
   );
-};
+}
 
 export default KittenCardsAnimation;
 
@@ -194,27 +167,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bottomBar: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     paddingVertical: SIZES.spacing_16_vertical,
   },
   card: {
     width: 300,
     height: 300,
-    position: 'absolute',
-    alignSelf: 'center',
+    position: "absolute",
+    alignSelf: "center",
     borderRadius: 3,
     shadowColor: COLORS.black,
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
     borderWidth: 1,
-    borderColor: '#FFF',
+    borderColor: "#FFF",
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     flex: 3,
     borderRadius: 2,
   },

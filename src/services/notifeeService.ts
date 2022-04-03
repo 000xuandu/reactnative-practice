@@ -1,17 +1,16 @@
-import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
-import { firebase } from '@react-native-firebase/messaging';
-import {fcmService} from '~services';
+import notifee, { AndroidImportance, EventType } from "@notifee/react-native";
+import { fcmService } from "~services";
 
 class NotifeeService {
-  private channelId: string = '';
+  private channelId = "";
 
   private async createChannelForAndroid() {
     // delete chanel if exits
-    await notifee.deleteChannel('important');
+    await notifee.deleteChannel("important");
     // Create a channel
     this.channelId = await notifee.createChannel({
-      id: 'important',
-      name: 'Important Notifications',
+      id: "important",
+      name: "Important Notifications",
       importance: AndroidImportance.HIGH,
     });
   }
@@ -22,16 +21,19 @@ class NotifeeService {
    * You can change UI, navigate to another screen
    */
   registerOnForegroundEvent() {
-    notifee.onForegroundEvent(({type}) => {
+    notifee.onForegroundEvent(({ type }) => {
       switch (type) {
         case EventType.DISMISSED:
-          console.log('User dismissed notification');
+          console.log("User dismissed notification");
           break;
         case EventType.PRESS:
-          console.log('User pressed notification via foreground');
-          fcmService.navigation.push('Home', {
+          console.log("User pressed notification via foreground");
+          fcmService.navigation.push("Home", {
             id: fcmService.remoteMessage?.data?.Room,
           });
+          break;
+        default:
+          console.log("This is default case");
           break;
       }
     });
@@ -45,8 +47,8 @@ class NotifeeService {
    * Because this function run without React code.
    */
   registerOnBackgroundEvent() {
-    notifee.onBackgroundEvent(async ({}) => {
-      console.log('event notification from background');
+    notifee.onBackgroundEvent(async () => {
+      console.log("event notification from background");
       // const {notification, pressAction} = detail;
       // if (type === EventType.ACTION_PRESS) {
       //   console.log('[onBackgroundEvent] ACTION_PRESS: first_action_reply');
@@ -63,15 +65,15 @@ class NotifeeService {
       await this.createChannelForAndroid();
     }
     const notificationBasic = {
-      title: 'Notification Title',
-      body: 'Main body content of the notification',
+      title: "Notification Title",
+      body: "Main body content of the notification",
       android: {
         channelId: this.channelId,
-        smallIcon: 'ic_notification', // optional, defaults to 'ic_launcher'.
-        color: '#9c27b0',
+        smallIcon: "ic_notification", // optional, defaults to 'ic_launcher'.
+        color: "#9c27b0",
         badgeCount: Math.floor(Math.random() * 40),
         pressAction: {
-          id: 'default',
+          id: "default",
         },
       },
     };
@@ -79,8 +81,8 @@ class NotifeeService {
     try {
       await notifee.displayNotification(notificationBasic);
     } catch (e) {
-      console.log('this.channelId: ', this.channelId);
-      console.error('[displayNotification]: ', e);
+      console.log("this.channelId: ", this.channelId);
+      console.error("[displayNotification]: ", e);
     }
   }
 }

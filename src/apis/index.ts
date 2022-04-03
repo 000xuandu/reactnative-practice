@@ -1,4 +1,4 @@
-import {axiosClient} from './axiosClient';
-import {todoAPIs} from './todoApis';
+import axiosClient from "./axiosClient";
+import { todoAPIs } from "./todoApis";
 
-export {axiosClient, todoAPIs};
+export { axiosClient, todoAPIs };

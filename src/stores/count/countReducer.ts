@@ -1,4 +1,4 @@
-import * as countActionTypes from '../count/countActionTypes';
+import * as countActionTypes from "../count/countActionTypes";
 
 export interface Action {
   readonly type: string;
@@ -19,11 +19,11 @@ interface CountState {
 const initialState: CountState = {
   number: 0,
   list: [
-    {id: 1, name: 'todo 1', isDone: false},
-    {id: 2, name: 'todo 2', isDone: false},
-    {id: 3, name: 'todo 3', isDone: false},
-    {id: 4, name: 'todo 4', isDone: false},
-    {id: 5, name: 'todo 5', isDone: false},
+    { id: 1, name: "todo 1", isDone: false },
+    { id: 2, name: "todo 2", isDone: false },
+    { id: 3, name: "todo 3", isDone: false },
+    { id: 4, name: "todo 4", isDone: false },
+    { id: 5, name: "todo 5", isDone: false },
   ],
 };
 
@@ -38,7 +38,7 @@ const countReducer = (state = initialState, action: Action) => {
                 ...item,
                 isDone: !item.isDone,
               }
-            : item,
+            : item
         ),
       };
     case countActionTypes.ADD_TODO_ITEM:

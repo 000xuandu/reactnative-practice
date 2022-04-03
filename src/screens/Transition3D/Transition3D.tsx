@@ -1,40 +1,29 @@
-import React from 'react';
-import {
-  Animated,
-  Image,
-  Platform,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import Carousel, {
-  CarouselProps,
-  getInputRangeFromIndexes,
-} from 'react-native-snap-carousel';
-import {SIZES} from '~constants';
+import React from "react";
+import { Animated, Image, Platform, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Carousel, { CarouselProps, getInputRangeFromIndexes } from "react-native-snap-carousel";
+import { images, SIZES } from "~constants";
 
 const stories = [
   {
-    id: '2',
-    source: require('../../assets/images/onboarding-1.png'),
+    id: "2",
+    source: images.headerImage,
   },
   {
-    id: '4',
-    source: require('../../assets/images/onboarding-2.png'),
+    id: "4",
+    source: require("../../assets/images/onboarding-2.png"),
   },
   {
-    id: '5',
-    source: require('../../assets/images/onboarding-3.png'),
+    id: "5",
+    source: require("../../assets/images/onboarding-3.png"),
   },
   {
-    id: '3',
-    source: require('../../assets/images/onboarding-2.png'),
+    id: "3",
+    source: require("../../assets/images/onboarding-2.png"),
   },
   {
-    id: '1',
-    source: require('../../assets/images/onboarding-1.png'),
+    id: "1",
+    source: images.Logo,
   },
 ];
 
@@ -42,30 +31,23 @@ function toRadians(angle: number) {
   return angle * (Math.PI / 180);
 }
 
-const POSITION = Platform.OS === 'ios' ? 2 : 1.5;
+const POSITION = Platform.OS === "ios" ? 2 : 1.5;
 const ZOOM = Math.sin(toRadians(65));
 const MARGIN25 = (SIZES.width - 320) / 31.3 + 7;
 const MARGIN50 = (SIZES.width - 320) / 23.5 + 13;
 const MARGIN100 = (SIZES.width - 320) / 47 + 5;
 
-const Transition3D = () => {
-  const _scrollInterpolator = (
-    index: number,
-    carouselProps: CarouselProps<any>,
-  ) => {
+function Transition3D() {
+  const scrollInterpolator = (index: number, carouselProps: CarouselProps<any>) => {
     const range = [1, 0, -1];
     const inputRange = getInputRangeFromIndexes(range, index, carouselProps);
     const outputRange = range;
 
-    return {inputRange, outputRange};
+    return { inputRange, outputRange };
   };
 
-  const _animatedStyles = (
-    _index: number,
-    scrollX: Animated.AnimatedValue,
-    _carouselProps: CarouselProps<any>,
-  ) => {
-    return {
+  const animatedStyles = (_index: number, scrollX: Animated.AnimatedValue, _carouselProps: CarouselProps<any>) =>
+    ({
       transform: [
         {
           perspective: 2 * SIZES.width,
@@ -79,7 +61,7 @@ const Transition3D = () => {
         {
           rotateY: scrollX.interpolate({
             inputRange: [-1, 0, 1],
-            outputRange: ['-90deg', '0deg', '90deg'],
+            outputRange: ["-90deg", "0deg", "90deg"],
           }),
         },
         {
@@ -107,13 +89,12 @@ const Transition3D = () => {
         inputRange: [-1, -0.5, 0.5, 1],
         outputRange: [0.4, 1, 1, 0.4],
       }),
-    } as unknown as StyleProp<ViewStyle>;
-  };
+    } as unknown as StyleProp<ViewStyle>);
 
-  const renderItem = ({item}: {item: any}) => {
+  const renderItem = ({ item }: { item: any }) => {
     const style = {
       width: SIZES.width,
-      height: '100%',
+      height: "100%",
     };
     return (
       <SafeAreaView>
@@ -128,16 +109,16 @@ const Transition3D = () => {
     <View style={styles.container}>
       <Carousel
         firstItem={0}
-        containerCustomStyle={{width: SIZES.width}}
+        containerCustomStyle={{ width: SIZES.width }}
         data={stories}
-        useScrollView={true}
+        useScrollView
         bounces={false}
         renderItem={renderItem}
         sliderWidth={SIZES.width}
         itemWidth={SIZES.width}
         keyExtractor={setKeyExtractor}
-        scrollInterpolator={_scrollInterpolator}
-        slideInterpolatedStyle={_animatedStyles}
+        scrollInterpolator={scrollInterpolator}
+        slideInterpolatedStyle={animatedStyles}
       />
       {/* <Animated.FlatList
         horizontal
@@ -154,10 +135,10 @@ const Transition3D = () => {
       /> */}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: 'black'},
+  container: { flex: 1, backgroundColor: "black" },
 });
 
 export default Transition3D;

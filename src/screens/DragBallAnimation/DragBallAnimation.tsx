@@ -1,44 +1,33 @@
-import React from 'react';
-import {Alert, StyleSheet} from 'react-native';
-import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import Animated, {
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import { SIZES } from '~constants';
+import React from "react";
+import { StyleSheet } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import Animated, { useAnimatedStyle, useDerivedValue, useSharedValue, withSpring } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { SIZES } from "~constants";
 
 const NUMBER_BALLS = 3;
-const ARRAY_COLORS = ['blue', 'green', 'red'];
+const ARRAY_COLORS = ["blue", "green", "red"];
 
 interface AnimatedPosition {
   x: Animated.SharedValue<number>;
   y: Animated.SharedValue<number>;
 }
 
-const useFollowAnimatedPosition = ({x, y}: AnimatedPosition) => {
-  const followX = useDerivedValue(() => {
-    return withSpring(x.value);
-  });
+const useFollowAnimatedPosition = ({ x, y }: AnimatedPosition) => {
+  const followX = useDerivedValue(() => withSpring(x.value));
 
-  const followY = useDerivedValue(() => {
-    return withSpring(y.value);
-  });
+  const followY = useDerivedValue(() => withSpring(y.value));
 
-  const rStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{translateX: followX.value}, {translateY: followY.value}],
-    };
-  });
+  const rStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: followX.value }, { translateY: followY.value }],
+  }));
 
-  return {followX, followY, rStyle};
+  return { followX, followY, rStyle };
 };
-const DragBallAnimation = () => {
+function DragBallAnimation() {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
-  const context = useSharedValue({x: 0, y: 0});
+  const context = useSharedValue({ x: 0, y: 0 });
 
   const gesture = Gesture.Pan()
     .onBegin(() => {
@@ -47,7 +36,7 @@ const DragBallAnimation = () => {
         y: translateY.value,
       };
     })
-    .onUpdate(e => {
+    .onUpdate((e) => {
       translateX.value = e.translationX + context.value.x;
       translateY.value = e.translationY + context.value.y;
     })
@@ -84,17 +73,17 @@ const DragBallAnimation = () => {
     y: blueFollowY,
   });
 
-  const {rStyle: rGreenCircleStyle} = useFollowAnimatedPosition({
+  const { rStyle: rGreenCircleStyle } = useFollowAnimatedPosition({
     x: redFollowX,
     y: redFollowY,
   });
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Animated.View
         style={[
           {
-            position: 'absolute',
+            position: "absolute",
             width: 70,
             height: 70,
             borderRadius: 70 / 2,
@@ -106,7 +95,7 @@ const DragBallAnimation = () => {
       <Animated.View
         style={[
           {
-            position: 'absolute',
+            position: "absolute",
             width: 70,
             height: 70,
             borderRadius: 70 / 2,
@@ -119,7 +108,7 @@ const DragBallAnimation = () => {
         <Animated.View
           style={[
             {
-              position: 'absolute',
+              position: "absolute",
               width: 70,
               height: 70,
               borderRadius: 70 / 2,
@@ -131,7 +120,7 @@ const DragBallAnimation = () => {
       </GestureDetector>
     </SafeAreaView>
   );
-};
+}
 
 export default DragBallAnimation;
 

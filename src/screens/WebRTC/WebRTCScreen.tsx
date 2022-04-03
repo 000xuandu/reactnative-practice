@@ -1,22 +1,20 @@
-import firestore, {
-  FirebaseFirestoreTypes,
-} from '@react-native-firebase/firestore';
-import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import firestore, { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   EventOnAddStream,
   MediaStream,
   RTCIceCandidate,
   RTCPeerConnection,
   RTCSessionDescription,
-} from 'react-native-webrtc';
-import {Button, GettingCall, Video} from '~components';
-import StreamService from '~services/streamService';
+} from "react-native-webrtc";
+import { Button, GettingCall, Video } from "~components";
+import StreamService from "~services/streamService";
 
-const configuration = {iceServers: [{url: 'stun:stun.l.google.com:19302'}]};
+const configuration = { iceServers: [{ url: "stun:stun.l.google.com:19302" }] };
 
-const WebRTCScreen = () => {
+function WebRTCScreen() {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [gettingCall, setGettingCall] = useState(false);
@@ -24,8 +22,8 @@ const WebRTCScreen = () => {
   const connecting = useRef(false);
 
   useEffect(() => {
-    const cRef = firestore().collection('meet').doc('chatId');
-    const subscribe = cRef.onSnapshot(async snapshot => {
+    const cRef = firestore().collection("meet").doc("chatId");
+    const subscribe = cRef.onSnapshot(async (snapshot) => {
       const data = snapshot.data();
       // On answer start the call
       if (pc.current && !pc.current.remoteDescription && data && data.answer) {
@@ -38,22 +36,20 @@ const WebRTCScreen = () => {
     });
     // On delete of collection call hangup
     // The other side has  clicked on hangup
-    const subscribeDelete = cRef.collection('callee').onSnapshot(snapshot => {
-      snapshot.docChanges().forEach(async change => {
-        if (change.type === 'removed') {
+    const subscribeDelete = cRef.collection("callee").onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach(async (change) => {
+        if (change.type === "removed") {
           await hangup();
         }
       });
     });
-    const subscribeCallerDelete = cRef
-      .collection('caller')
-      .onSnapshot(snapshot => {
-        snapshot.docChanges().forEach(async change => {
-          if (change.type === 'removed') {
-            await hangup();
-          }
-        });
+    const subscribeCallerDelete = cRef.collection("caller").onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach(async (change) => {
+        if (change.type === "removed") {
+          await hangup();
+        }
       });
+    });
     return () => {
       subscribe();
       subscribeDelete();
@@ -64,7 +60,7 @@ const WebRTCScreen = () => {
   const setupWebRTC = async () => {
     pc.current = new RTCPeerConnection(configuration);
     const stream = await StreamService.getStream();
-    console.log('stream: ', stream);
+    console.log("stream: ", stream);
     if (stream) {
       setLocalStream(stream);
       pc.current.addStream(stream);
@@ -77,15 +73,15 @@ const WebRTCScreen = () => {
   };
 
   const create = async () => {
-    console.log('calling');
+    console.log("calling");
     connecting.current = true;
     await setupWebRTC();
 
     // document for the call;
-    const cRef = firestore().collection('meet').doc('chatId');
+    const cRef = firestore().collection("meet").doc("chatId");
 
     // Exchange the ICE candidates between the caller and callee
-    collectIceCandidates(cRef, 'caller', 'callee');
+    collectIceCandidates(cRef, "caller", "callee");
 
     if (pc.current) {
       // create the offer for the call
@@ -104,11 +100,11 @@ const WebRTCScreen = () => {
   };
 
   const join = async () => {
-    console.log('Joining the call');
+    console.log("Joining the call");
     connecting.current = true;
     setGettingCall(false);
 
-    const cRef = firestore().collection('meet').doc('chatId');
+    const cRef = firestore().collection("meet").doc("chatId");
     const offer = (await cRef.get()).data()?.offer;
 
     if (offer) {
@@ -116,7 +112,7 @@ const WebRTCScreen = () => {
       await setupWebRTC();
       // Exchange the ICE candidates:
       // Check the parameters, its reversed. Since the joining part is called
-      collectIceCandidates(cRef, 'callee', 'caller');
+      collectIceCandidates(cRef, "callee", "caller");
       if (pc.current) {
         pc.current.setRemoteDescription(new RTCSessionDescription(offer));
 
@@ -151,21 +147,21 @@ const WebRTCScreen = () => {
 
   const streamCleanUp = async () => {
     if (localStream) {
-      localStream.getTracks().forEach(t => t.stop());
+      localStream.getTracks().forEach((t) => t.stop());
       localStream.release();
     }
     setLocalStream(null);
     setRemoteStream(null);
   };
   const firestoreCleanUp = async () => {
-    const cRef = firestore().collection('meet').doc('chatId');
+    const cRef = firestore().collection("meet").doc("chatId");
     if (cRef) {
-      const calleeCandidate = await cRef.collection('callee').get();
-      calleeCandidate.forEach(async candidate => {
+      const calleeCandidate = await cRef.collection("callee").get();
+      calleeCandidate.forEach(async (candidate) => {
         await candidate.ref.delete();
       });
-      const callerCandidate = await cRef.collection('caller').get();
-      callerCandidate.forEach(async candidate => {
+      const callerCandidate = await cRef.collection("caller").get();
+      callerCandidate.forEach(async (candidate) => {
         await candidate.ref.delete();
       });
       cRef.delete();
@@ -175,10 +171,10 @@ const WebRTCScreen = () => {
   const collectIceCandidates = async (
     cRef: FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>,
     localName: string,
-    remoteName: string,
+    remoteName: string
   ) => {
     if (pc.current) {
-      pc.current.onicecandidate = event => {
+      pc.current.onicecandidate = (event) => {
         const candidateCollection = cRef.collection(localName);
         if (event.candidate) {
           candidateCollection.add(event.candidate);
@@ -187,9 +183,9 @@ const WebRTCScreen = () => {
     }
 
     // Get the ICE candidate added to firestore and update the local PC:
-    cRef.collection(remoteName).onSnapshot(snapshot => {
+    cRef.collection(remoteName).onSnapshot((snapshot) => {
       snapshot.docChanges().forEach((change: any) => {
-        if (change.type === 'added') {
+        if (change.type === "added") {
           const candidate = new RTCIceCandidate(change.doc.data());
           pc.current?.addIceCandidate(candidate);
         }
@@ -205,21 +201,15 @@ const WebRTCScreen = () => {
   // Displays local stream on calling
   // Displays both local and remote stream once c all is connected
   if (localStream) {
-    return (
-      <Video
-        hangup={hangup}
-        localStream={localStream}
-        remoteStream={remoteStream}
-      />
-    );
+    return <Video hangup={hangup} localStream={localStream} remoteStream={remoteStream} />;
   }
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Button iconName="video" backgroundColor="gray" onPress={create} />
     </SafeAreaView>
   );
-};
+}
 
 export default WebRTCScreen;
 

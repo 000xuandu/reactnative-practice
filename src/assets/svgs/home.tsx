@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, {Path} from 'react-native-svg';
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
 
 interface SVGTypes {
   fill?: string;
@@ -19,7 +19,8 @@ function HomeSvg(props: SVGTypes) {
       strokeLinecap="round"
       strokeLinejoin="round"
       className="prefix__feather prefix__feather-activity"
-      {...props}>
+      {...props}
+    >
       <Path d="M22 12h-4l-3 9L9 3l-3 9H2" />
     </Svg>
   );

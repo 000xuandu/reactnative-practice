@@ -1,15 +1,16 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {OtpScreen, SignInScreen, SplashScreen} from '~screens';
-import React from 'react';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
+import { OtpScreen, SignInScreen, SplashScreen } from "~screens";
 
 const AuthFlowStack = createNativeStackNavigator();
 
-export const AuthFlow = ({}: any) => {
+export function AuthFlow({}: any) {
   return (
     <AuthFlowStack.Navigator
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+    >
       {/* <AuthFlowStack.Screen name="DrawerMixedTab" component={DrawerMixedTab} />
         <AuthFlowStack.Screen name="Home" component={HomeScreen} />
         <AuthFlowStack.Screen name="ParallelHeader" component={ParallelHeader} />
@@ -27,4 +28,4 @@ export const AuthFlow = ({}: any) => {
       <AuthFlowStack.Screen name="Otp" component={OtpScreen} />
     </AuthFlowStack.Navigator>
   );
-};
+}

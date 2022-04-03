@@ -1,5 +1,5 @@
-import {ActionReducer} from '~models/common';
-import * as authActionTypes from '../auth/authActionTypes';
+import { ActionReducer } from "~models/common";
+import * as authActionTypes from "../auth/authActionTypes";
 
 interface AuthState {
   isLogin: boolean;

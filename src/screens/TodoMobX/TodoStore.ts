@@ -1,12 +1,12 @@
-import {flow, makeAutoObservable} from 'mobx';
-import { Alert } from 'react-native';
-import {todoAPIs} from '~apis';
-import {ParamsAPIs} from '~models/common';
-import {Todo} from '~models/user';
+import { flow, makeAutoObservable } from "mobx";
+import { todoAPIs } from "~apis";
+import { ParamsAPIs } from "~models/common";
+import { Todo } from "~models/user";
 
 class ObservableTodoStore {
   todoList: Array<Todo> = [];
-  isLoading: boolean = true;
+
+  isLoading = true;
 
   constructor() {
     makeAutoObservable(this, {
@@ -22,24 +22,24 @@ class ObservableTodoStore {
       this.todoList = userList;
       console.log(this.todoList);
     } catch (error) {
-      console.log('fetchTodoList: ', error);
+      console.log("fetchTodoList: ", error);
     } finally {
       this.isLoading = false;
     }
   }
 
   deleteTodoItem(todoId: number) {
-    this.todoList = this.todoList?.filter(todo => todo.id !== todoId);
+    this.todoList = this.todoList?.filter((todo) => todo.id !== todoId);
   }
 
   toggleCompleted(todoId: number) {
-    this.todoList = this.todoList.map(todo =>
+    this.todoList = this.todoList.map((todo) =>
       todo.id === todoId
         ? {
             ...todo,
             completed: !todo.completed,
           }
-        : todo,
+        : todo
     );
   }
 }

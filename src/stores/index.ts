@@ -1,6 +1,7 @@
-import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
-import {createStore} from 'redux';
-import rootReducer from '~stores/rootReducer';
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { createStore } from "redux";
+import rootReducer from "~stores/rootReducer";
+
 export const store = createStore(rootReducer);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

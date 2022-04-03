@@ -1,19 +1,18 @@
-import React, {useCallback, useEffect, useRef} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import Video from 'react-native-video';
-import {SIZES} from '~constants';
-import {scale} from '~utils/ScalingUtils';
+import React, { useCallback } from "react";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Video from "react-native-video";
+import { scale } from "~utils/ScalingUtils";
 
 const DATA = Array(100)
   .fill(1)
   .map((_, index) => ({
     id: index + 1,
-    uri: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    uri: "https://www.w3schools.com/html/mov_bbb.mp4",
     ref: React.createRef(),
   }));
 
-const ItemVideo = ({item, index}) => {
+function ItemVideo({ item, index }) {
   return (
     <View style={styles.itemVideoContainer}>
       <Text style={styles.textItemVideo}>This is header video {index + 1}</Text>
@@ -23,36 +22,32 @@ const ItemVideo = ({item, index}) => {
         }} // Can be a URL or a local file.
         ref={item.ref} // Store reference
         style={styles.backgroundVideo}
-        controls={true}
-        paused={true}
+        controls
+        paused
       />
       <Text style={styles.textItemVideo}>This is footer video</Text>
     </View>
   );
-};
+}
 
-const WatchScreen = () => {
-  const setKeyExtractor = item => item.id;
+function WatchScreen() {
+  const setKeyExtractor = (item) => item.id;
 
-  const renderItem = ({item, index}) => {
-    return <ItemVideo item={item} index={index} />;
-  };
+  const renderItem = ({ item, index }) => <ItemVideo item={item} index={index} />;
 
-  const onViewableItemsChanged = useCallback(({viewableItems, changed}) => {
+  const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
     if (!viewableItems || viewableItems.length <= 0) {
       return;
     }
-    const lastItemViewable = viewableItems.find(
-      ({item}) => item.id === DATA.slice(DATA.length - 1)[0]?.id,
-    );
+    const lastItemViewable = viewableItems.find(({ item }) => item.id === DATA.slice(DATA.length - 1)[0]?.id);
     const firstItemViewable = lastItemViewable?.item || viewableItems[0].item;
-    console.log('firstItemViewable: ', firstItemViewable);
+    console.log("firstItemViewable: ", firstItemViewable);
     if (firstItemViewable) {
-      firstItemViewable.ref?.current.setNativeProps({paused: false});
+      firstItemViewable.ref?.current.setNativeProps({ paused: false });
     }
-    DATA.forEach(item => {
+    DATA.forEach((item) => {
       if (item.id !== firstItemViewable?.id) {
-        item.ref?.current?.setNativeProps({paused: true});
+        item.ref.current?.setNativeProps({ paused: true });
       }
     });
   }, []);
@@ -75,7 +70,7 @@ const WatchScreen = () => {
           waitForInteraction: true,
           viewAreaCoveragePercentThreshold: 75,
         }}
-        removeClippedSubviews={true}
+        removeClippedSubviews
         windowSize={11}
         initialNumToRender={11}
         // getItemLayout={getItemLayout}
@@ -98,7 +93,7 @@ const WatchScreen = () => {
       />
     </SafeAreaView>
   );
-};
+}
 
 export default WatchScreen;
 
@@ -108,15 +103,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backgroundVideo: {
-    width: '100%',
+    width: "100%",
     height: ITEM_HEIGHT,
   },
   itemVideoContainer: {
-    width: '100%',
-    backgroundColor: 'black',
+    width: "100%",
+    backgroundColor: "black",
     marginBottom: scale(16),
   },
   textItemVideo: {
-    color: 'white',
+    color: "white",
   },
 });

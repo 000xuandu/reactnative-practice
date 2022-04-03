@@ -1,30 +1,14 @@
-import React from 'react';
-import {
-  StyleSheet,
-  FlatList,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
-} from 'react-native';
-import Animated, {
-  CurvedTransition,
-  EntryExitTransition,
-  FadeIn,
-  FadeOut,
-  FadingTransition,
-  JumpingTransition,
-  Layout,
-  SequencedTransition,
-} from 'react-native-reanimated';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {SIZES} from '~constants';
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from "react-native";
+import Animated, { FadeIn, FadeOut, Layout, SequencedTransition } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { SIZES } from "~constants";
 
 const DATA = Array(10)
   .fill(1)
   .map((_, index) => index + 1);
 
-const LayoutAnimationScreen = () => {
+function LayoutAnimationScreen() {
   const [data, setData] = React.useState(DATA);
   const keyExtractor = (item: number) => item.toString();
   const initialMode = React.useRef<boolean>(true);
@@ -33,17 +17,18 @@ const LayoutAnimationScreen = () => {
     initialMode.current = false;
   }, []);
 
-  const renderItem = ({item}: {item: number}) => (
+  const renderItem = ({ item }: { item: number }) => (
     <Animated.View
       layout={Layout}
       entering={FadeIn}
       exiting={FadeOut}
       style={{
-        backgroundColor: 'pink',
+        backgroundColor: "pink",
         marginVertical: SIZES.spacing_8_vertical,
         marginHorizontal: SIZES.spacing_8_horizontal,
         padding: SIZES.spacing_16_vertical,
-      }}>
+      }}
+    >
       <Text>{item}</Text>
     </Animated.View>
   );
@@ -52,7 +37,7 @@ const LayoutAnimationScreen = () => {
 
   const onAdd = () => {
     const index = randomIndex();
-    setData(prevData => {
+    setData((prevData) => {
       const newData = [...prevData];
       newData.splice(index, 0, new Date().getTime());
       return newData;
@@ -61,7 +46,7 @@ const LayoutAnimationScreen = () => {
 
   const onRemove = () => {
     const index = randomIndex();
-    setData(prevData => {
+    setData((prevData) => {
       const newData = [...prevData];
       newData.splice(index, 1);
       return newData;
@@ -74,7 +59,7 @@ const LayoutAnimationScreen = () => {
     while (toIndex === fromIndex) {
       toIndex = randomIndex();
     }
-    setData(prevData => {
+    setData((prevData) => {
       const newData = [...prevData];
       const elm = newData[fromIndex];
       newData.splice(fromIndex, 1);
@@ -84,7 +69,7 @@ const LayoutAnimationScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       {/* <Animated.FlatList
         data={data}
         style={{flex: 1}}
@@ -99,67 +84,68 @@ const LayoutAnimationScreen = () => {
           </Animated.View>
         )}
       /> */}
-      <ScrollView style={{flex: 1}}>
-        {data.map((item, index) => {
-          return (
-            <Animated.View
-              key={item}
-              entering={
-                initialMode.current ? FadeIn.delay(100 * index) : FadeIn
-              }
-              exiting={FadeOut}
-              layout={SequencedTransition}
-              style={styles.listItem}>
-              <Text>{item}</Text>
-            </Animated.View>
-          );
-        })}
+      <ScrollView style={{ flex: 1 }}>
+        {data.map((item, index) => (
+          <Animated.View
+            key={item}
+            entering={initialMode.current ? FadeIn.delay(100 * index) : FadeIn}
+            exiting={FadeOut}
+            layout={SequencedTransition}
+            style={styles.listItem}
+          >
+            <Text>{item}</Text>
+          </Animated.View>
+        ))}
       </ScrollView>
       <View
         style={{
-          width: '100%',
-          flexDirection: 'row',
-        }}>
+          width: "100%",
+          flexDirection: "row",
+        }}
+      >
         <TouchableOpacity
           onPress={onRemove}
           style={{
-            backgroundColor: 'red',
+            backgroundColor: "red",
             flex: 1,
             height: 50,
-          }}>
+          }}
+        >
           <Text>Remove</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={onChangeIndex}
           style={{
-            backgroundColor: 'yellow',
+            backgroundColor: "yellow",
             flex: 1,
             height: 50,
-          }}>
+          }}
+        >
           <Text>Change Index</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={onAdd}
           style={{
-            backgroundColor: 'red',
+            backgroundColor: "red",
             flex: 1,
             height: 50,
-          }}>
+          }}
+        >
           <Text>Add</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
-};
+}
 
 export default LayoutAnimationScreen;
 
 const styles = StyleSheet.create({
   listItem: {
     height: 50,
-    backgroundColor: 'pink',
-    width: '90%',
+    backgroundColor: "pink",
+    width: "90%",
     marginVertical: 10,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
 });

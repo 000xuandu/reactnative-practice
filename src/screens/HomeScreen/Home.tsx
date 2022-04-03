@@ -1,16 +1,13 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-} from 'react-native-reanimated';
-import Config from 'react-native-config';
+} from "react-native-reanimated";
+import Config from "react-native-config";
 
 const SIZE = 100.0;
 const CIRCLE_RADIUS = SIZE * 2;
@@ -24,10 +21,7 @@ export default function HomeScreen() {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
 
-  const panGestureEvent = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    ContextType
-  >({
+  const panGestureEvent = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, ContextType>({
     onStart: (event, context) => {
       context.translateX = translateX.value;
       context.translateY = translateY.value;
@@ -46,18 +40,16 @@ export default function HomeScreen() {
     },
   });
 
-  const rStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateX: translateX.value,
-        },
-        {
-          translateY: translateY.value,
-        },
-      ],
-    };
-  });
+  const rStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateX: translateX.value,
+      },
+      {
+        translateY: translateY.value,
+      },
+    ],
+  }));
 
   return (
     <View style={styles.container}>
@@ -74,23 +66,23 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   square: {
     width: SIZE,
     height: SIZE,
-    backgroundColor: 'rgba(0, 0, 256, 0.5)',
+    backgroundColor: "rgba(0, 0, 256, 0.5)",
     borderRadius: 20,
   },
   circle: {
     width: CIRCLE_RADIUS * 2,
     height: CIRCLE_RADIUS * 2,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: CIRCLE_RADIUS,
     borderWidth: 5,
-    borderColor: 'rgba(0, 0, 256, 0.5)',
+    borderColor: "rgba(0, 0, 256, 0.5)",
   },
 });

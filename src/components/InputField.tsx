@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   NativeSyntheticEvent,
   Platform,
@@ -11,9 +11,9 @@ import {
   TouchableOpacity,
   View,
   ViewStyle,
-} from 'react-native';
-import {CustomIcon} from '~components';
-import {COLORS, FONTS, SIZES} from '~constants';
+} from "react-native";
+import { CustomIcon } from "~components";
+import { COLORS, FONTS, SIZES } from "~constants";
 
 interface InputFieldProps {
   showLabel?: boolean;
@@ -29,9 +29,9 @@ interface InputFieldProps {
 
 const defaultProps: InputFieldProps = {
   showLabel: true,
-  label: '',
+  label: "",
   showIcon: false,
-  value: '',
+  value: "",
 };
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -44,12 +44,12 @@ const InputField: React.FC<InputFieldProps> = ({
   onFocus,
   ...rest
 }) => {
-  const [iconName, setIconName] = React.useState<string>('Eye-Show');
+  const [iconName, setIconName] = React.useState<string>("Eye-Show");
   const onChangeIcon = React.useCallback(() => {
-    if (iconName === 'Eye-Show') {
-      setIconName('Eye-Hide');
+    if (iconName === "Eye-Show") {
+      setIconName("Eye-Hide");
     } else {
-      setIconName('Eye-Show');
+      setIconName("Eye-Show");
     }
   }, [iconName]);
 
@@ -61,7 +61,7 @@ const InputField: React.FC<InputFieldProps> = ({
           style={styles.input}
           value={value}
           onChange={onChange}
-          secureTextEntry={showIcon && iconName === 'Eye-Show'}
+          secureTextEntry={showIcon && iconName === "Eye-Show"}
           textAlignVertical="center"
           onFocus={onFocus}
           {...rest}
@@ -70,11 +70,7 @@ const InputField: React.FC<InputFieldProps> = ({
       {showIcon && (
         <View style={styles.iconWrapper}>
           <TouchableOpacity onPress={onChangeIcon}>
-            <CustomIcon
-              name={iconName}
-              size={SIZES.spacing_24_horizontal}
-              color={COLORS.secondary.gray_2}
-            />
+            <CustomIcon name={iconName} size={SIZES.spacing_24_horizontal} color={COLORS.secondary.gray_2} />
           </TouchableOpacity>
         </View>
       )}
@@ -94,8 +90,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.spacing_12_horizontal,
     marginHorizontal: SIZES.spacing_24_horizontal,
 
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   labelAndInputWrapper: {
     flex: 1,

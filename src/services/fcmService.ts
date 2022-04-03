@@ -1,8 +1,9 @@
-import messaging from '@react-native-firebase/messaging';
-import {notifeeService} from '~services';
+import messaging from "@react-native-firebase/messaging";
+import { notifeeService } from "~services";
 
-class fcmService {
+class FcmService {
   public navigation: any;
+
   public remoteMessage: any;
 
   async requestUserPermission() {
@@ -11,9 +12,9 @@ class fcmService {
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
-      console.log('Authorization status:', authStatus);
+      console.log("Authorization status:", authStatus);
     } else {
-      console.log('Request permission denied', authStatus);
+      console.log("Request permission denied", authStatus);
     }
   }
 
@@ -21,18 +22,15 @@ class fcmService {
     await messaging().registerDeviceForRemoteMessages();
     const fcmToken = await messaging().getToken();
     if (fcmToken) {
-      console.log('fcmToken: ', fcmToken);
+      console.log("fcmToken: ", fcmToken);
     } else {
-      console.warn('[fcmToken]: can not get fcmToken');
+      console.warn("[fcmToken]: can not get fcmToken");
     }
   }
 
   receiveMessageForeground() {
-    return messaging().onMessage(async remoteMessage => {
-      console.log(
-        'A new FCM message arrived!',
-        JSON.stringify(remoteMessage.data),
-      );
+    return messaging().onMessage(async (remoteMessage) => {
+      console.log("A new FCM message arrived!", JSON.stringify(remoteMessage.data));
       notifeeService.displayNotification();
     });
   }
@@ -56,4 +54,4 @@ class fcmService {
   // }, []);
 }
 
-export default new fcmService();
+export default new FcmService();

@@ -1,8 +1,7 @@
-import React from 'react';
-import {Button, FlatList, RefreshControl, Text, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useQuery} from 'react-query';
-import {useGetPost} from './hooks/useGetPost';
+import React from "react";
+import { Button, FlatList, RefreshControl, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useQuery } from "react-query";
 
 interface SuperHeroProps {
   id: number | string;
@@ -10,7 +9,7 @@ interface SuperHeroProps {
   alterEgo: string;
 }
 
-const LearningReactQuery = ({navigation}) => {
+function LearningReactQuery({ navigation }) {
   // const {
   //   status,
   //   error,
@@ -29,7 +28,7 @@ const LearningReactQuery = ({navigation}) => {
     if (!hasNextPage) {
       return;
     }
-    console.log('nextPage');
+    console.log("nextPage");
     fetchNextPage();
   };
 
@@ -43,20 +42,21 @@ const LearningReactQuery = ({navigation}) => {
 
   const fetchSuperHeroes = async () => {
     try {
-      const res = await fetch('http://localhost:40001/superheroes');
+      const res = await fetch("http://localhost:40001/superheroes");
       const dataJson = await res.json();
       return dataJson;
     } catch (e: any) {
-      console.log('error: ', e);
+      console.log("error: ", e);
       throw new Error(e.message);
     }
   };
   const onSuccess = (data: SuperHeroProps[]) => {
-    console.log('the query is fetched: ', data);
+    console.log("the query is fetched: ", data);
+    //
   };
 
   const onError = (error: any) => {
-    console.log('the query is error', error);
+    console.log("the query is error", error);
   };
 
   const {
@@ -66,13 +66,13 @@ const LearningReactQuery = ({navigation}) => {
     error,
     isFetching,
     refetch,
-  } = useQuery<SuperHeroProps[]>('super-heroes', fetchSuperHeroes, {
+  } = useQuery<SuperHeroProps[]>("super-heroes", fetchSuperHeroes, {
     // enabled: false,
     onSuccess,
     onError,
   });
 
-  console.log(JSON.stringify({isLoading, isFetching}));
+  console.log(JSON.stringify({ isLoading, isFetching }));
 
   if (isError) {
     return (
@@ -83,28 +83,25 @@ const LearningReactQuery = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Button
         title="Go to useMutation screen"
         onPress={() => {
-          navigation.navigate('LearningUseMutation');
+          navigation.navigate("LearningUseMutation");
         }}
       />
       <FlatList
-        style={{flex: 1}}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        data={posts?.pages.flatMap(dataPage => {
-          return dataPage.data;
-        })}
-        keyExtractor={item => item._id.toString()}
-        renderItem={({item, index}) => (
+        style={{ flex: 1 }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        data={posts?.pages.flatMap((dataPage) => dataPage.data)}
+        keyExtractor={(item) => item._id.toString()}
+        renderItem={({ item, index }) => (
           <View
             style={{
               marginVertical: 32,
-              backgroundColor: 'red',
-            }}>
+              backgroundColor: "red",
+            }}
+          >
             <Text>{index}</Text>
             <Text>{item._id}</Text>
             <Text>{item.name}</Text>
@@ -116,6 +113,6 @@ const LearningReactQuery = ({navigation}) => {
       />
     </SafeAreaView>
   );
-};
+}
 
 export default LearningReactQuery;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Animated,
   GestureResponderEvent,
@@ -7,31 +7,31 @@ import {
   PanResponderGestureState,
   StyleSheet,
   View,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {images} from '~constants';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { images } from "~constants";
 
 export default function StaggeredHeadsAnimation() {
   const heads = React.useRef([
     {
       image: images.Logo,
       animation: new Animated.ValueXY(),
-      text: 'Drag Me',
+      text: "Drag Me",
     },
     {
       image: images.Logo,
       animation: new Animated.ValueXY(),
-      text: 'Drag Me',
+      text: "Drag Me",
     },
     {
       image: images.Logo,
       animation: new Animated.ValueXY(),
-      text: 'Drag Me',
+      text: "Drag Me",
     },
     {
       image: images.Logo,
       animation: new Animated.ValueXY(),
-      text: 'Drag Me',
+      text: "Drag Me",
     },
   ]).current;
 
@@ -40,7 +40,7 @@ export default function StaggeredHeadsAnimation() {
     x: number;
     height: number;
     width: number;
-  }>({y: -1, height: -1, x: -1, width: -1}).current;
+  }>({ y: -1, height: -1, x: -1, width: -1 }).current;
 
   const onLayoutView = (e: LayoutChangeEvent) => {
     layoutValue.y = e.nativeEvent.layout.y;
@@ -54,7 +54,7 @@ export default function StaggeredHeadsAnimation() {
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: () => {
-        heads.map(({animation}) => {
+        heads.map(({ animation }) => {
           animation.extractOffset();
           animation.setValue({
             x: 0,
@@ -62,23 +62,20 @@ export default function StaggeredHeadsAnimation() {
           });
         });
       },
-      onPanResponderMove: (
-        evt: GestureResponderEvent,
-        {dx, dy}: PanResponderGestureState,
-      ) => {
+      onPanResponderMove: (evt: GestureResponderEvent, { dx, dy }: PanResponderGestureState) => {
         heads[0].animation.setValue({
           x: dx,
           y: dy,
         });
-        heads.slice(1).map(({animation}, index) => {
-          return Animated.sequence([
+        heads.slice(1).map(({ animation }, index) =>
+          Animated.sequence([
             Animated.delay(index * 10),
             Animated.spring(animation, {
-              toValue: {x: dx, y: dy},
+              toValue: { x: dx, y: dy },
               useNativeDriver: false,
             }),
-          ]).start();
-        });
+          ]).start()
+        );
       },
       onPanResponderRelease: (e: GestureResponderEvent) => {
         const limitTop = layoutValue.y + 60;
@@ -90,21 +87,18 @@ export default function StaggeredHeadsAnimation() {
         }
         if (e.nativeEvent.pageY >= limitBottom) {
           backToSafeArea(limitBottom - 60);
-          return;
         }
       },
-    }),
+    })
   ).current;
 
   const backToSafeArea = (offset: number) => {
-    heads.map(({animation}) => {
-      return animation.y.flattenOffset();
-    });
+    heads.map(({ animation }) => animation.y.flattenOffset());
     Animated.spring(heads[0].animation.y, {
       toValue: offset,
       useNativeDriver: false,
     }).start();
-    heads.slice(1).map(({animation}, index) => {
+    heads.slice(1).map(({ animation }, index) => {
       animation.y.setValue(offset);
       return Animated.sequence([
         Animated.delay(index * 10),
@@ -123,8 +117,7 @@ export default function StaggeredHeadsAnimation() {
           .slice(0)
           .reverse()
           .map((item, index, items) => {
-            const pan =
-              index === items.length - 1 ? panResponder.panHandlers : {};
+            const pan = index === items.length - 1 ? panResponder.panHandlers : {};
             return (
               <Animated.Image
                 {...pan}
@@ -153,6 +146,6 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    position: 'absolute',
+    position: "absolute",
   },
 });
