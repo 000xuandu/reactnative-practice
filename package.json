@@ -132,8 +132,7 @@
     "testPathIgnorePatterns": [
       "\\.snap$",
       "<rootDir>/node_modules/"
-    ],
-    "cacheDirectory": ".jest/cache"
+    ]
   },
   "lint-staged": {
     "!*.{json,md,lock}": [
